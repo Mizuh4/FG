@@ -1,45 +1,20 @@
 {% extends 'FGPH/template.html' %}
 {% load static %}
 {% block content %}
-	<div class="row">
+<div class="row">
+	{% for recipe in recipes %}
 		<div class="col-lg-4">
-			<img class="thumbnail" src="{% static 'images/placeholder.png' %}">
+			<img class="thumbnail" src="{{ recipe.imageURL }}">
 			<div class="box-element product">
-				<h6><strong>Product</strong></h6>
-				<hr>
-
-				<button  class="btn btn-outline-secondary add-btn">Add to Cart</button>
-				<a class="btn btn-outline-success" href="#">View</a>
-				<h4 style="display: inline-block; float: right"><strong>$20</strong></h4>
-
-			</div>
-		</div>
-
-		<div class="col-lg-4">
-			<img class="thumbnail" src="{% static 'images/placeholder.png' %}">
-			<div class="box-element product">
-				<h6><strong>Product</strong></h6>
+				<h6><strong>{{ recipe.name }}</strong></h6>
+				<h6 style="line-height: 10px;">by: {{ recipe.author }}</h6>
 				<hr>
 				
-				<button  class="btn btn-outline-secondary add-btn">Add to Cart</button>
+				<button  class="btn btn-outline-secondary add-btn">Add to Cookbook</button>
 				<a class="btn btn-outline-success" href="#">View</a>
-				<h4 style="display: inline-block; float: right"><strong>$20</strong></h4>
-				
+				<h4 style="float: right"><i class="me-2 bi bi-heart"></i></h4>
 			</div>
 		</div>
-
-		<div class="col-lg-4">
-			<img class="thumbnail" src="{% static 'images/placeholder.png' %}">
-			<div class="box-element product">
-				<h6><strong>Product</strong></h6>
-				<hr>
-
-				<button  class="btn btn-outline-secondary add-btn">Add to Cart</button>
-				<a class="btn btn-outline-success" href="#">View</a>
-				<h4 style="display: inline-block; float: right"><strong>$20</strong></h4>
-
-			</div>
-		</div>
-	</div>
-
+	{% endfor %}
+</div>
 {% endblock content %}

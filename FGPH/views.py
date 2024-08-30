@@ -1,8 +1,10 @@
 from django.shortcuts import render
+from .models import *
 
 # Create your views here.
 def index(request):
-    context = {}
+    recipes = Recipe.objects.all()
+    context = {'recipes': recipes}
     return render(request, 'FGPH/home.html', context)
 
 def cookbook(request):
