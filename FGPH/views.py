@@ -5,13 +5,17 @@ def index(request):
     context = {}
     return render(request, 'FGPH/home.html', context)
 
-def cookbooks(request):
+def cookbook(request):
     context = {}
-    return render(request, 'FGPH/cookbooks.html', context)
+    return render(request, 'FGPH/cookbook.html', context)
 
 def recipe(request):
     context = {}
     return render(request, 'FGPH/recipe.html', context)
+
+def profile(request):
+    context = {}
+    return render(request, 'FGPH/profile.html', context)
 
 def login(request):
     context = {}
