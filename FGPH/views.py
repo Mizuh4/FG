@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import JsonResponse
 from .models import *
 
 # Create your views here.
@@ -7,8 +8,17 @@ def index(request):
     context = {'recipes': recipes}
     return render(request, 'FGPH/home.html', context)
 
+
 def cookbook(request):
-    context = {}
+    if request.user.is_authenticated:
+        author = request.user.registereduser
+        cookbook = author.recipes.all()
+        recipecount = cookbook.count()
+    else:
+        cookbook = []
+        recipecount = 0
+
+    context = {'cookbook': cookbook, 'recipecount': recipecount}
     return render(request, 'FGPH/cookbook.html', context)
 
 def recipe(request):
@@ -18,6 +28,9 @@ def recipe(request):
 def profile(request):
     context = {}
     return render(request, 'FGPH/profile.html', context)
+
+def addToCookbook(request):
+    return JsonResponse('Recipe was added to cookbook', safe=False)
 
 def login(request):
     context = {}
