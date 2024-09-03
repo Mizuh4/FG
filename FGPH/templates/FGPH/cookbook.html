@@ -13,7 +13,7 @@
             <br>
             <table class="table">
                 <tr>
-                    <th><h5>Recipes: <strong>{{ recipecount }}</strong></h5></th>
+                    <th><h5>Search: </h5></th>
                 </tr>
             </table>
 
@@ -24,16 +24,25 @@
     </div>
 </div>
 
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link disabled" aria-current="page" href="#">Saved</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" aria-disabled="true">Created</a>
+    </li>
+</ul>
+
 <div class="row">
-    {% for recipe in cookbook %}
+    {% for cookbookRecipe in cookbookRecipes %}
 		<div class="col-lg-4">
-			<img class="thumbnail" src="{{ recipe.imageURL }}">
+			<img class="thumbnail" src="{{ cookbookRecipe.recipe.imageURL }}">
 			<div class="box-element product">
-				<h6><strong>{{ recipe.name }}</strong></h6>
-				<h6 style="line-height: 10px;">by: {{ recipe.author }}</h6>
+				<h6><strong>{{ cookbookRecipe.recipe.name }}</strong></h6>
+				<h6 style="line-height: 10px;">by: {{ cookbookRecipe.recipe.author }}</h6>
 				<hr>
 				
-				<button  class="btn btn-outline-secondary add-btn">Add to Cookbook</button>
+				<button data-recipe="{{ cookbookRecipe.recipe.id }}" data-action="remove" class="btn btn-outline-secondary remove-recipe">Remove from Cookbook</button>
 				<a class="btn btn-outline-success" href="#">View</a>
 				<h4 style="float: right"><i class="me-2 bi bi-heart"></i></h4>
 			</div>

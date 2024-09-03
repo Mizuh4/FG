@@ -45,9 +45,15 @@ class Recipe(models.Model):
 		return url
 	
 class Cookbook(models.Model):
-	author = models.OneToOneField(RegisteredUser, null=True, on_delete=models.SET_NULL)
-	recipe = models.ForeignKey(Recipe, null=True, on_delete=models.SET_NULL)
+	cookbookAuthor = models.OneToOneField(RegisteredUser, null=True, on_delete=models.SET_NULL)
 	date_created = models.DateTimeField(auto_now_add=True, null=True)
 	
 	def __str__(self):
-		return str(self.RegisteredUser.name)
+		return str(self.id)
+
+class CookbookRecipe(models.Model):
+	cookbook = models.ForeignKey(Cookbook, null=True, on_delete=models.SET_NULL, related_name='recipes')
+	recipe = models.ForeignKey(Recipe, null=True, on_delete=models.SET_NULL)
+
+	def __str__(self):
+		return str(self.id)

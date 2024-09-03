@@ -1,7 +1,5 @@
-console.log('Hello, World!')
-
-function addRecipe() {
-    document.querySelectorAll('.add-recipe').forEach(button => {
+function toCookbook() {
+    document.querySelectorAll('.add-recipe, .remove-recipe').forEach(button => {
         button.onclick = function() {
             var recipeId = this.dataset.recipe
             var action = this.dataset.action
@@ -11,14 +9,34 @@ function addRecipe() {
             if (user === 'AnonymousUser') {
                 console.log('Not logged in.')
             } else {
-                console.log('User is logged in, sending data...')
+                updateCookbook(recipeId, action)
             }
-            
         }
+    })
+}
+
+function updateCookbook(recipeId, action) {
+    console.log('User is logged in, sending data...')
+
+    var url = '/update_cookbook/'
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type':'application/json',
+            'X-CSRFToken': csrftoken,
+        },
+        body: JSON.stringify({'recipeId': recipeId, 'action': action})
+    })
+    .then(response => {
+        return response.json()
+    })
+    .then(data => {
+        console.log('data:', data)
     })
 }
 
 document.addEventListener("DOMContentLoaded", function() {
     console.log("ContentLoaded");
-    addRecipe();
+    toCookbook();
 })
