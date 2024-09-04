@@ -5,7 +5,7 @@ app_name = 'FGPH'
 urlpatterns = [
     path("", views.index, name='home'),
     path("cookbook/", views.cookbook, name='cookbook'),
-    path("recipe/", views.recipe, name='recipe'),
+    path("recipe/<str:recipeId>", views.recipe, name='recipe'),
     path("update_cookbook/", views.updateCookbook, name='update_cookbook'),
 
 

@@ -2,5 +2,12 @@
 {% load static %}
 
 {% block content %}
-    <h3>Recipe</h3>
+<a class="btn btn-outline-dark" href="{% url 'FGPH:home' %}">&#x2190; Browse Recipes</a>
+<h4 style="line-height: 70px;">{{ recipe.name }}</h4>
+{% for step in recipe.steps %}
+    <h4>{{ step }}</h4>
+{% endfor %}
+<div class="sticky-bottom d-flex flex-row-reverse pb-4">
+    <a class="btn btn-outline-dark" href="{% url 'FGPH:home' %}">&#xF603; Upload Recipe</a>
+</div>
 {% endblock %}

@@ -33,6 +33,7 @@ function updateCookbook(recipeId, action) {
     })
     .then(data => {
         console.log('data:', data)
+        location.reload()
     })
 }
 

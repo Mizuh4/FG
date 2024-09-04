@@ -15,7 +15,7 @@ def cookbook(request):
         cookbook, created = Cookbook.objects.get_or_create(cookbookAuthor=cookbookAuthor)
         cookbookRecipes = cookbook.recipes.all()
     else:
-        cookbook = []
+        cookbookRecipes = []
 
     context = {'cookbookRecipes': cookbookRecipes}
     return render(request, 'FGPH/cookbook.html', context)
@@ -34,7 +34,7 @@ def updateCookbook(request):
     cookbook, created = Cookbook.objects.get_or_create(cookbookAuthor=cookbookAuthor)
     cookbookRecipe, created = CookbookRecipe.objects.get_or_create(cookbook=cookbook, recipe=recipe)
     print(cookbookRecipe)
-    
+        
     if action == 'add':
         cookbookRecipe.save()
     elif action == 'remove':
@@ -42,16 +42,16 @@ def updateCookbook(request):
     
     return JsonResponse('Cookbook has been updated', safe=False)
 
+def recipe(request, recipeId):
+    recipe = Recipe.objects.get(id=recipeId)
 
-
-
-
-
-
-
-def recipe(request):
-    context = {}
+    context = {'recipe': recipe}
     return render(request, 'FGPH/recipe.html', context)
+
+
+
+
+
 
 def profile(request):
     context = {}

@@ -1,3 +1,4 @@
+import json
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -29,6 +30,7 @@ class Recipe(models.Model):
 	description = models.CharField(max_length=64, null=True, blank=True)
 	category = models.CharField(max_length=64, null=True, choices=CATEGORY)
 	tags = models.ManyToManyField(Tag)
+	steps = models.JSONField(null=True)
 	image = models.ImageField(null=True, blank=True)
 
 	date_created = models.DateTimeField(auto_now_add=True, null=True)
@@ -43,6 +45,15 @@ class Recipe(models.Model):
 		except:
 			url = ''
 		return url
+
+	@property
+	def recipeSteps(self):
+		return json.loads(self.steps)
+	
+	@recipeSteps.setter
+	def recipeSteps(self, steps):
+		self.steps=json.dumps(steps)
+
 	
 class Cookbook(models.Model):
 	cookbookAuthor = models.OneToOneField(RegisteredUser, null=True, on_delete=models.SET_NULL)

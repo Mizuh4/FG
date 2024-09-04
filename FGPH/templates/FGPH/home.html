@@ -11,7 +11,7 @@
 				<hr>
 				
 				<button data-recipe="{{ recipe.id }}" data-action="add" class="btn btn-outline-secondary add-recipe">Add to Cookbook</button>
-				<a class="btn btn-outline-success" href="#">View</a>
+				<a href="{% url 'FGPH:recipe' recipe.id %}" data-recipe="{{ recipe.id }}" class="btn btn-outline-success view-recipe">View</a>
 				<h4 style="float: right"><i class="me-2 bi bi-heart"></i></h4>
 			</div>
 		</div>

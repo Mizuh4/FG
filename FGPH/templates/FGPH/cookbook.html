@@ -26,10 +26,10 @@
 
 <ul class="nav nav-tabs">
     <li class="nav-item">
-        <a class="nav-link disabled" aria-current="page" href="#">Saved</a>
+        <a class="nav-link active" aria-current="page" href="#">Saved</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link active" aria-disabled="true">Created</a>
+        <a class="nav-link disabled" aria-disabled="true">Created</a>
     </li>
 </ul>
 
@@ -43,11 +43,14 @@
 				<hr>
 				
 				<button data-recipe="{{ cookbookRecipe.recipe.id }}" data-action="remove" class="btn btn-outline-secondary remove-recipe">Remove from Cookbook</button>
-				<a class="btn btn-outline-success" href="#">View</a>
+				<a href="{% url 'FGPH:recipe' cookbookRecipe.recipe.id %}" data-recipe="{{ recipe.id }}" class="btn btn-outline-success view-recipe">View</a>
 				<h4 style="float: right"><i class="me-2 bi bi-heart"></i></h4>
 			</div>
 		</div>
 	{% endfor %}
+    <div class="sticky-bottom">
+        <a class="btn btn-outline-dark" href="{% url 'FGPH:home' %}">&#x2190; Upload Recipe</a>
+    </div>
 </div>
 {% endblock %}
 
