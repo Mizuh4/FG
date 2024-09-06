@@ -20,6 +20,12 @@ def cookbook(request):
     context = {'cookbookRecipes': cookbookRecipes}
     return render(request, 'FGPH/cookbook.html', context)
 
+def recipe(request, recipeId):
+    recipe = Recipe.objects.get(id=recipeId)
+
+    context = {'recipe': recipe}
+    return render(request, 'FGPH/recipe.html', context)
+
 def updateCookbook(request):
     data = json.loads(request.body)
     recipeId = data['recipeId']
@@ -42,20 +48,26 @@ def updateCookbook(request):
     
     return JsonResponse('Cookbook has been updated', safe=False)
 
-def recipe(request, recipeId):
-    recipe = Recipe.objects.get(id=recipeId)
+def uploadRecipe(request):
+    context = {}
+    return render(request, 'FGPH/uploadRecipe.html', context)
 
-    context = {'recipe': recipe}
-    return render(request, 'FGPH/recipe.html', context)
-
-
-
-
-
+def addImage(request):
+    context = {}
+    return render(request, 'FGPH/addImage.html', context)
 
 def profile(request):
-    context = {}
+    user = request.user
+    #group = list(user.groups.values_list('name', flat = True))
+
+
+    context = {'user': user}
     return render(request, 'FGPH/profile.html', context)
+
+
+
+
+
 
 def login(request):
     context = {}

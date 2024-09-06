@@ -7,7 +7,7 @@
 			<img class="thumbnail" src="{{ recipe.imageURL }}">
 			<div class="box-element product">
 				<h6><strong>{{ recipe.name }}</strong></h6>
-				<h6 style="line-height: 10px;">by: {{ recipe.author }}</h6>
+				<h6 style="line-height: 10px;">by: {{ recipe.author }} ({{ recipe.author.title }})</h6>
 				<hr>
 				
 				<button data-recipe="{{ recipe.id }}" data-action="add" class="btn btn-outline-secondary add-recipe">Add to Cookbook</button>

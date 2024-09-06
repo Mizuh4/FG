@@ -48,12 +48,13 @@
 			</div>
 		</div>
 	{% endfor %}
-    <div class="sticky-bottom">
-        <a class="btn btn-outline-dark" href="{% url 'FGPH:home' %}">&#x2190; Upload Recipe</a>
-    </div>
+</div>
+
+<div class="sticky-bottom d-flex flex-row-reverse pb-4">
+    <a class="btn btn-dark" href="{% url 'FGPH:home' %}"><i class="bi bi-upload me-2"></i>Upload Recipe</a>
 </div>
 {% endblock %}
-
+<!--
 <div class="box-element">
     <div class="cart-row">
         <div style="flex:2"></div>
@@ -78,4 +79,4 @@
         <div style="flex:1"><p>$32</p></div>
     </div>
 
-</div>
+</div>-->

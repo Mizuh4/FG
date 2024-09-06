@@ -4,10 +4,51 @@
 {% block content %}
 <a class="btn btn-outline-dark" href="{% url 'FGPH:home' %}">&#x2190; Browse Recipes</a>
 <h4 style="line-height: 70px;">{{ recipe.name }}</h4>
+
+<div id="carouselExample" class="carousel slide">
+  <div class="carousel-inner">
+    <div style="height: 300px;" class="carousel-item active">
+      <!-- Trigger the Modal -->
+      <!--<img id="myImg" src="img_snow.jpg" alt="Snow" style="width:100%;max-width:300px">-->
+      <img src="{{ recipe.imageURL }}" style="height: 300px;" class="thumbnail myImg" alt="{{ recipe.name }}">
+
+      <!-- The Modal -->
+      <div class="modal myModal">
+
+        <!-- The Close Button -->
+        <span class="close">&times;</span>
+
+        <!-- Modal Content (The Image) -->
+        <img class="modal-content img01">
+
+        <!-- Modal Caption (Image Text) -->
+        <div class="caption"></div>
+      </div>
+
+      <!--<div style="bottom: 0px; padding-bottom: 10px;" class="carousel-caption">
+        <a style="border-radius: 15px;" class="btn btn-dark" href="{% url 'FGPH:home' %}">View</a>
+      </div>-->
+      
+    </div>
+  </div>
+
+  <button class="bg-black carousel-control-prev disabled" style="width: 50px;" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  
+  <button class="bg-black carousel-control-next disabled" style="width: 50px;" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+
+</div>
+
+
 {% for step in recipe.steps %}
     <h4>{{ step }}</h4>
 {% endfor %}
-<div class="sticky-bottom d-flex flex-row-reverse pb-4">
-    <a class="btn btn-outline-dark" href="{% url 'FGPH:home' %}">&#xF603; Upload Recipe</a>
-</div>
+<!--<div class="sticky-bottom d-flex flex-row-reverse pb-4">
+    <a class="btn btn-outline-dark" href="{% url 'FGPH:home' %}"><i class="bi bi-upload me-2"></i>Upload Recipe</a>
+</div>-->
 {% endblock %}
