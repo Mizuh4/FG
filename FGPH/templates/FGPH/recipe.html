@@ -3,14 +3,19 @@
 
 {% block content %}
 <a class="btn btn-outline-dark" href="{% url 'FGPH:home' %}">&#x2190; Browse Recipes</a>
-<h4 style="line-height: 70px;">{{ recipe.name }}</h4>
+
+<div class="d-flex mb-3">
+  <div class="me-auto p-2"><h4 style="padding-top: 20px;">{{ recipe.name }}</h4></div>
+  <div style="height: fit-content; margin-top: 30px;" class="btn btn-outline-dark ">Add Photo</div>
+</div>
 
 <div id="carouselExample" class="carousel slide">
   <div class="carousel-inner">
-    <div style="height: 300px;" class="carousel-item active">
+    {% for image in images %}
+    <div style="height: 300px;" class="carousel-item">
       <!-- Trigger the Modal -->
       <!--<img id="myImg" src="img_snow.jpg" alt="Snow" style="width:100%;max-width:300px">-->
-      <img src="{{ recipe.imageURL }}" style="height: 300px;" class="thumbnail myImg" alt="{{ recipe.name }}">
+      <img src="{{ image.imageURL }}" style="height: 300px;" class="thumbnail myImg" alt="{{ recipe.name }}">
 
       <!-- The Modal -->
       <div class="modal myModal">
@@ -30,6 +35,7 @@
       </div>-->
       
     </div>
+    {% endfor %}
   </div>
 
   <button class="bg-black carousel-control-prev disabled" style="width: 50px;" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">

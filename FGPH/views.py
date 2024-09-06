@@ -22,8 +22,9 @@ def cookbook(request):
 
 def recipe(request, recipeId):
     recipe = Recipe.objects.get(id=recipeId)
+    images = recipe.images.all()
 
-    context = {'recipe': recipe}
+    context = {'recipe': recipe, 'images': images}
     return render(request, 'FGPH/recipe.html', context)
 
 def updateCookbook(request):

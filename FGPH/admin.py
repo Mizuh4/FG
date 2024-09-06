@@ -5,6 +5,7 @@ from .models import *
 
 admin.site.register(RegisteredUser)
 admin.site.register(Tag)
+admin.site.register(Image)
 admin.site.register(Recipe)
 admin.site.register(Cookbook)
 admin.site.register(CookbookRecipe)

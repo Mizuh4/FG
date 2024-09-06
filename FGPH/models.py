@@ -32,20 +32,12 @@ class Recipe(models.Model):
 	category = models.CharField(max_length=64, null=True, choices=CATEGORY)
 	tags = models.ManyToManyField(Tag)
 	steps = models.JSONField(null=True)
-	image = models.ImageField(null=True, blank=True)
+	thumbnail = models.ImageField(default='placeholder.png', null=True, blank=True)
 
 	date_created = models.DateTimeField(auto_now_add=True, null=True)
 
 	def __str__(self):
 		return self.name
-
-	@property
-	def imageURL(self):
-		try:
-			url = self.image.url
-		except:
-			url = ''
-		return url
 
 	@property
 	def recipeSteps(self):
@@ -55,7 +47,22 @@ class Recipe(models.Model):
 	def recipeSteps(self, steps):
 		self.steps=json.dumps(steps)
 
-	
+class Image(models.Model):
+	recipe = models.ForeignKey(Recipe, null=True, on_delete=models.SET_NULL, related_name='images')
+	photo = models.ImageField(null=True)
+
+	def __str__(self):
+		return self.photo.name
+
+	@property
+	def imageURL(self):
+		try:
+			url = self.photo.url
+		except:
+			url = ''
+		return url
+
+
 class Cookbook(models.Model):
 	cookbookAuthor = models.OneToOneField(RegisteredUser, null=True, on_delete=models.SET_NULL)
 	date_created = models.DateTimeField(auto_now_add=True, null=True)
