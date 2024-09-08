@@ -17,7 +17,8 @@ class RegisteredUser(models.Model):
     
 class Region(models.Model):
 	name = models.CharField(max_length=64, null=True)
-	acronym = models.CharField(max_length=64, null=True)
+	alias = models.CharField(max_length=64, null=True, blank=True)
+	order = models.FloatField(null=True, blank=True)
 
 	def __str__(self):
 		return self.name

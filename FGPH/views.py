@@ -47,7 +47,7 @@ def post(request):
 
 def index(request):
     recipes = Recipe.objects.all()
-    regions = Region.objects.all()
+    regions = Region.objects.all().values().order_by('order')
     print(regions)
     context = {'recipes': recipes, 'regions': regions}
     return render(request, 'FGPH/home.html', context)
