@@ -8,8 +8,7 @@ urlpatterns = [
     path("recipe/<str:recipeId>", views.recipe, name='recipe'),
 
     path("update_cookbook/", views.updateCookbook, name='update_cookbook'),
-    path("upload_recipe/", views.uploadRecipe, name='upload_recipe'),
-    path("add_image/", views.addImage, name='radd_imageecipe'),
+    path("post/", views.post, name='post'),
 
     path("profile/", views.profile, name='profile'),
     path("login/", views.login, name='login'),

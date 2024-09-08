@@ -1,0 +1,7 @@
+<ul class="nav nav-pills">
+    {% for region in regions %}
+    <li class="nav-item">
+        <a class="btn btn-secondary me-1" data-region="{{ region.name }}" aria-current="page" href="#">{{ region.name }}</a>
+    </li>
+    {% endfor %}
+</ul>

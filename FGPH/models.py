@@ -1,6 +1,7 @@
 import json
 from django.db import models
 from django.contrib.auth.models import User
+from django.template.defaultfilters import slugify
 
 # Create your models here.
 class RegisteredUser(models.Model):
@@ -14,6 +15,13 @@ class RegisteredUser(models.Model):
 	def __str__(self):
 	    return self.name
     
+class Region(models.Model):
+	name = models.CharField(max_length=64, null=True)
+	acronym = models.CharField(max_length=64, null=True)
+
+	def __str__(self):
+		return self.name
+
 class Tag(models.Model):
     name = models.CharField(max_length=64, null=True)
 
@@ -47,12 +55,17 @@ class Recipe(models.Model):
 	def recipeSteps(self, steps):
 		self.steps=json.dumps(steps)
 
-class Image(models.Model):
+def get_image_filename(instance, filename):
+    title = instance.recipe.name
+    slug = slugify(title)
+    return "post_images/%s-%s" % (slug, filename)  
+
+class Images(models.Model):
 	recipe = models.ForeignKey(Recipe, null=True, on_delete=models.SET_NULL, related_name='images')
-	photo = models.ImageField(null=True)
+	photo = models.ImageField(null=True, upload_to=get_image_filename, verbose_name='Image')
 
 	def __str__(self):
-		return self.photo.name
+		return str(self.recipe.name)
 
 	@property
 	def imageURL(self):
@@ -62,17 +75,16 @@ class Image(models.Model):
 			url = ''
 		return url
 
-
 class Cookbook(models.Model):
 	cookbookAuthor = models.OneToOneField(RegisteredUser, null=True, on_delete=models.SET_NULL)
 	date_created = models.DateTimeField(auto_now_add=True, null=True)
 	
 	def __str__(self):
-		return str(self.id)
+		return str(self.cookbookAuthor.name)
 
 class CookbookRecipe(models.Model):
 	cookbook = models.ForeignKey(Cookbook, null=True, on_delete=models.SET_NULL, related_name='recipes')
 	recipe = models.ForeignKey(Recipe, null=True, on_delete=models.SET_NULL)
 
 	def __str__(self):
-		return str(self.id)
+		return str(self.cookbook.cookbookAuthor.name)
