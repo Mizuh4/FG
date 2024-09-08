@@ -36,10 +36,11 @@ class Recipe(models.Model):
     )
 
 	author = models.ForeignKey(RegisteredUser, null=True, on_delete=models.SET_NULL, related_name='recipes')
-	name = models.CharField(max_length=200)
-	description = models.CharField(max_length=64, null=True, blank=True)
+	name = models.CharField(max_length=64)
+	description = models.CharField(max_length=200, null=True, blank=True)
 	category = models.CharField(max_length=64, null=True, choices=CATEGORY)
 	tags = models.ManyToManyField(Tag)
+	region = models.ForeignKey(Region, null=True, on_delete=models.SET_NULL, related_name='recipes')
 	steps = models.JSONField(null=True)
 	thumbnail = models.ImageField(default='placeholder.png', null=True, blank=True)
 
