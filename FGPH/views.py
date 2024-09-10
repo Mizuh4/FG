@@ -13,6 +13,9 @@ from .forms import *
 @login_required
 def upload(request):
     categories = Category.objects.all()
+    regions = Region.objects.all().values().order_by('name')
+
+
     if request.method == 'POST':
         data = request.POST
         thumbnail = request.FILES.get('thumbnail')
@@ -48,12 +51,13 @@ def upload(request):
 
         cookbookAuthor = request.user.registereduser
         recipe = Recipe.objects.get(id=recipe.id)
+        print('recipe id', recipe.id)
 
         cookbook, created = Cookbook.objects.get_or_create(cookbookAuthor=cookbookAuthor)
-        cookbookRecipe, created = CookbookRecipe.objects.get_or_create(cookbook=cookbook, recipe=recipe)
+        CookbookRecipe.objects.get_or_create(cookbook=cookbook, recipe=recipe)
+        return redirect('FGPH:cookbook')
 
-
-    context = {'categories': categories}
+    context = {'categories': categories, 'regions': regions}
     return render(request, 'FGPH/upload.html', context)
 
 def index(request):

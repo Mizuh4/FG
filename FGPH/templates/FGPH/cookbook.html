@@ -26,17 +26,17 @@
 
 <ul class="nav nav-tabs">
     <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="#">Saved</a>
+        <a class="nav-link" style="color: black;">Saved</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link disabled" aria-disabled="true">Created</a>
+        <a class="nav-link active" style="color: black;">Created</a>
     </li>
 </ul>
 
 <div class="row">
     {% for cookbookRecipe in cookbookRecipes %}
 		<div class="col-lg-4">
-			<img class="thumbnail" src="{{ cookbookRecipe.recipe.imageURL }}">
+			<img class="thumbnail" src="{{ cookbookRecipe.recipe.thumbnail.url }}">
 			<div class="box-element product">
 				<h6><strong>{{ cookbookRecipe.recipe.name }}</strong></h6>
 				<h6 style="line-height: 10px;">by: {{ cookbookRecipe.recipe.author }}</h6>
@@ -44,16 +44,12 @@
 				
 				<button data-recipe="{{ cookbookRecipe.recipe.id }}" data-action="remove" class="btn btn-outline-secondary remove-recipe">Remove from Cookbook</button>
 				<a href="{% url 'FGPH:recipe' cookbookRecipe.recipe.id %}" data-recipe="{{ recipe.id }}" class="btn btn-outline-success view-recipe">View</a>
-				<h4 style="float: right"><i class="me-2 bi bi-heart"></i></h4>
+				<!--<h4 style="float: right"><i class="me-2 bi bi-heart"></i></h4>-->
 			</div>
 		</div>
 	{% endfor %}
 </div>
-
-<div class="sticky-bottom d-flex flex-row-reverse pb-4">
-    <a class="btn btn-dark" href="{% url 'FGPH:home' %}"><i class="bi bi-upload me-2"></i>Upload Recipe</a>
-</div>
-{% endblock %}
+{% endblock content %}
 <!--
 <div class="box-element">
     <div class="cart-row">
