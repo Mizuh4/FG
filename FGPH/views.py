@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 import json
 from .models import *
@@ -8,11 +8,52 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from .forms import *
+
 # Create your views here.
-
-
+@login_required
 def upload(request):
-    context = {}
+    categories = Category.objects.all()
+    if request.method == 'POST':
+        data = request.POST
+        thumbnail = request.FILES.get('thumbnail')
+
+        print('data:', data)
+        print('name:', data['category'])
+        print('thumbnail:', thumbnail)
+
+        if data['category'] != 'none':
+            #category = Category.objects.get(id=data['category'])
+            category, created = Category.objects.get_or_create(name=data['category'])
+
+
+        if data['tag'] != '':
+            tag, created = Tag.objects.get_or_create(name=data['tag'])
+        else:
+            tag = None
+        
+        recipe = Recipe.objects.create(
+            author=request.user.registereduser,
+            name=data['name'],
+            category=category,
+            thumbnail=thumbnail
+        )
+
+        recipe.tags.add(tag)
+        cookbookAuthor = request.user.registereduser
+
+        recipe = Recipe.objects.get(id=recipeId)
+
+        cookbook, created = Cookbook.objects.get_or_create(cookbookAuthor=cookbookAuthor)
+        cookbookRecipe, created = CookbookRecipe.objects.get_or_create(cookbook=cookbook, recipe=recipe)
+        print(cookbookRecipe)
+            
+        cookbookRecipe.save()
+        
+        return JsonResponse('Cookbook has been updated', safe=False)
+
+        return redirect('FGPH:cookbook')
+
+    context = {'categories': categories}
     return render(request, 'FGPH/upload.html', context)
 
 def index(request):
@@ -62,9 +103,9 @@ def updateCookbook(request):
     
     return JsonResponse('Cookbook has been updated', safe=False)
 
-def addImage(request):
+'''def addImage(request):
     context = {}
-    return render(request, 'FGPH/addImage.html', context)
+    return render(request, 'FGPH/addImage.html', context)'''
 
 def profile(request):
     user = request.user

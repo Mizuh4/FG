@@ -29,6 +29,12 @@ class Tag(models.Model):
     def __str__(self):
         return self.name
 
+class Category(models.Model):
+	name = models.CharField(max_length=64)
+
+	def __str__(self):
+		return self.name
+
 class Recipe(models.Model):
 	CATEGORY = (
             ('Authentic', 'Authentic'),
@@ -38,7 +44,8 @@ class Recipe(models.Model):
 	author = models.ForeignKey(RegisteredUser, null=True, on_delete=models.SET_NULL, related_name='recipes')
 	name = models.CharField(max_length=64)
 	description = models.CharField(max_length=200, null=True, blank=True)
-	category = models.CharField(max_length=64, null=True, choices=CATEGORY)
+	category = models.ForeignKey(Category, null=True, on_delete=models.SET_NULL, related_name='recipes')
+	#category = models.CharField(max_length=64, null=True, choices=CATEGORY)
 	tags = models.ManyToManyField(Tag)
 	region = models.ForeignKey(Region, null=True, on_delete=models.SET_NULL, related_name='recipes')
 	steps = models.JSONField(null=True)

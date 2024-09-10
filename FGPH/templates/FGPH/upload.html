@@ -3,14 +3,77 @@
 
 {% block content %}
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-4">
-            <a class="btn btn-outline-dark" href="{% url 'FGPH:home' %}">&#x2190; Go Back</a>
-            <div class="card">
+    <form method="post" action="#" enctype="multipart/form-data">
+        {% csrf_token %}
 
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-auto me-auto"><a class="btn btn-outline-dark mb-2" href="{% url 'FGPH:home' %}">&#x2190; Go Back</a></div>
+                    <div class="col-auto"><button type="submit" class="btn btn-outline-dark mb-2">Next &#x2192;</button></div>
+                    <!--data-recipe="{{ recipe.id }}" data-action="add" class="btn btn-outline-secondary add-recipe"-->
+                </div>
+
+                <div class="card">
+                    <div class="m-3">
+                        <label class="form-label">Recipe</label>
+                        <input required name="name" class="form-control" type="text" placeholder="Enter recipe name">
+                    </div>
+
+                    <div class="m-3">
+                        <label class="form-label">Category</label>
+                        <input name="category" class="form-control" type="text" placeholder="Enter category">
+                        <!--<select name="category" class="form-control" type="text">
+                            <option value="none">Select Category...</option>
+                            {% for category in categories %}
+                            <option value="{{ category.id }}">{{ category.name }}</option>
+                            {% endfor %}
+                        </select>-->
+                    </div>
+
+                    <div class="m-3">
+                        <label class="form-label">Tags</label>
+                        <input name="tag" class="form-control" type="text" placeholder="Enter tags">
+                    </div>
+
+
+                    <div class="m-3">
+                        <label class="form-label">Upload Thumbnail</label>
+                        <input name="thumbnail" class="form-control" type="file">
+                        <!--<input name="image" class="form-control" type="file" multiple>-->
+
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+        <!--
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="m-3">
+                        <label class="form-label">Description</label>
+                        <input name="description" class="form-control" type="text" placeholder="Enter description">
+                    </div>
+
+                    <div class="m-3">
+                        <label class="form-label">Steps</label>
+                        <select name="category" class="form-control" type="text">
+                            <option value="none">Select Category...</option>
+                            {% for category in categories %}
+                            <option value="{{ category.name }}">{{ category.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="m-3">
+                        <label class="form-label">Upload Images</label>
+                        <input name="image" class="form-control" type="file" multiple>
+                    </div>
+                </div>
+            </div>
+        </div>
+        -->
+    </form>
 </div>
 
 {% endblock %}
