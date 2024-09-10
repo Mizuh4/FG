@@ -6,6 +6,7 @@ from .models import *
 admin.site.register(RegisteredUser)
 #admin.site.register(Region)
 admin.site.register(Tag)
+admin.site.register(Category)
 admin.site.register(Recipe)
 admin.site.register(Images)
 admin.site.register(Cookbook)
