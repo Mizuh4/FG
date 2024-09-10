@@ -19,35 +19,38 @@ def upload(request):
     if request.method == 'POST':
         data = request.POST
         thumbnail = request.FILES.get('thumbnail')
+        images = request.FILES.getlist('images')
 
-        #print('data:', data)
-        print('category ID:', data['category'])
+        '''print('data:', data)
+        print('category ID:', data['category'])'''
         print('thumbnail:', thumbnail)
-        print(type(thumbnail))
+        print('images:', images)
         
         category = Category.objects.get(id=data['category'])
+        region = Region.objects.get(id=data['region'])
+
 
         if data['tag'] != '':
             tag, created = Tag.objects.get_or_create(name=data['tag'])
         else:
             tag = None
-
-        if not thumbnail:
-            recipe = Recipe.objects.create(
-                author=request.user.registereduser,
-                name=data['name'],
-                category=category,
-            )
-        else:
-            recipe = Recipe.objects.create(
-                author=request.user.registereduser,
-                name=data['name'],
-                category=category,
-                thumbnail=thumbnail
-            )
+        recipe = Recipe.objects.create(
+            author=request.user.registereduser,
+            name=data['name'],
+            category=category,
+            region=region,
+            description=data['description'],
+        )
+        if thumbnail:
+            Recipe.objects.filter(id=recipe.id).update(thumbnail=thumbnail)
 
         recipe.tags.add(tag)
-        print(recipe.id)
+
+        for image in images:
+            Image.objects.create(
+                recipe=recipe,
+                photo=image
+            )
 
         cookbookAuthor = request.user.registereduser
         recipe = Recipe.objects.get(id=recipe.id)
@@ -61,10 +64,20 @@ def upload(request):
     return render(request, 'FGPH/upload.html', context)
 
 def index(request):
-    recipes = Recipe.objects.all()
+    category = request.GET.get('category')
+    region = request.GET.get('region')
+
+    if category:
+        recipes = Recipe.objects.filter(category__name__contains=category)
+    elif region:
+        recipes = Recipe.objects.filter(region__name__contains=region)
+    else:
+        recipes = Recipe.objects.all()
+
+    categories = Category.objects.all()
     regions = Region.objects.all().values().order_by('order')
     #print(regions)
-    context = {'recipes': recipes, 'regions': regions}
+    context = {'recipes': recipes, 'regions': regions, 'categories': categories}
     return render(request, 'FGPH/home.html', context)
 
 def cookbook(request):

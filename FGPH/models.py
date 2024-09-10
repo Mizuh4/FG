@@ -69,12 +69,12 @@ def get_image_filename(instance, filename):
     slug = slugify(title)
     return "post_images/%s-%s" % (slug, filename)  
 
-class Images(models.Model):
+class Image(models.Model):
 	recipe = models.ForeignKey(Recipe, null=True, on_delete=models.CASCADE, related_name='images')
 	photo = models.ImageField(null=True, upload_to=get_image_filename, verbose_name='Image')
 
-	'''def __str__(self):
-		return str(self.recipe.name)'''
+	def __str__(self):
+		return str(self.recipe.name)
 
 	@property
 	def imageURL(self):

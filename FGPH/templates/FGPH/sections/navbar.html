@@ -14,12 +14,9 @@
             Recipes
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Authentic</a></li>
-            <li><a class="dropdown-item" href="#">Signature</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Almusal (Breakfast)</a></li>
-            <li><a class="dropdown-item" href="#">Tanghalian (Lunch)</a></li>
-            <li><a class="dropdown-item" href="#">Hapunan (Dinner)</a></li>
+            {% for category in categories %}
+            <li><a class="dropdown-item" href="{% url 'FGPH:home' %}?category={{ category.name }}">{{ category.name }}</a></li>
+            {% endfor %}
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="{% url 'FGPH:cookbook' %}">Cookbook</a></li>
           </ul>
@@ -38,17 +35,19 @@
             Account
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{% url 'FGPH:upload' %}">Upload</a></li>
-            <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="{% url 'FGPH:profile' %}">Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="#">Logout</a></li>
           </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="{% url 'FGPH:upload' %}">Upload</a>
         </li>
       </ul>
       <form class="d-flex" role="search">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
       </form>
-      <button class="btn btn-outline-warning" type="submit">Login</button>
+      <button class="btn btn-outline-warning mt-2" type="submit">Login</button>
     </div>
   </div>
 </nav>
