@@ -4,7 +4,7 @@
       </button>
       
       <div class="collapse navbar-collapse mt-2" id="navbarText">
-        <ul class="nav nav-pills">
+        <ul id="regionsList" class="nav nav-pills">
             {% for region in regions %}
             <li class="nav-item">
                 <a class="btn btn-secondary me-1 mb-1" data-region="{{ region.name }}" aria-current="page" href="{% url 'FGPH:home' %}?region={{ region.name }}">{{ region.name }}</a>
