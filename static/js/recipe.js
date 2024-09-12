@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
-    console.log('heard')
+    console.log('recipe.js')
     // Get the modal
     document.querySelectorAll(".carousel-item").forEach(item => {
         item.classList.remove('active')
