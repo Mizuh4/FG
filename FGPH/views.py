@@ -10,6 +10,14 @@ from django.http import HttpResponseRedirect
 from .forms import *
 
 # Create your views here.
+
+def step(request):
+    if request == 'POST':
+        data = request.POST
+        
+
+        return redirect('FGPH:upload')
+
 @login_required
 def upload(request):
     categories = Category.objects.all()
