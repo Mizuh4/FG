@@ -4,7 +4,6 @@ from .models import *
 # Register your models here.
 
 admin.site.register(RegisteredUser)
-#admin.site.register(Region)
 admin.site.register(Tag)
 admin.site.register(Category)
 admin.site.register(Recipe)

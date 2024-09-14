@@ -34,22 +34,21 @@ class Category(models.Model):
 
 	def __str__(self):
 		return self.name
+	
+	class Meta:
+		verbose_name = "Category"
+		verbose_name_plural = "Categories"
 
 class Recipe(models.Model):
-	CATEGORY = (
-            ('Authentic', 'Authentic'),
-            ('Signature', 'Signature')
-    )
-
 	author = models.ForeignKey(RegisteredUser, null=True, on_delete=models.CASCADE, related_name='recipes')
 	name = models.CharField(max_length=64)
 	category = models.ForeignKey(Category, null=True, blank=True, on_delete=models.SET_NULL, related_name='recipes')
-	#category = models.CharField(max_length=64, null=True, choices=CATEGORY)
 	tags = models.ManyToManyField(Tag)
 	thumbnail = models.ImageField(default='placeholder.png')
 	region = models.ForeignKey(Region, null=True, blank=True, on_delete=models.SET_NULL, related_name='recipes')
 	description = models.CharField(max_length=200, null=True, blank=True)
 	steps = models.JSONField(null=True)
+	ingredients = models.JSONField(null=True)
 
 	date_created = models.DateTimeField(auto_now_add=True, null=True)
 

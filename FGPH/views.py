@@ -11,48 +11,49 @@ from .forms import *
 
 # Create your views here.
 
-def step(request):
-    if request == 'POST':
-        data = request.POST
-        
-
-        return redirect('FGPH:upload')
-
 @login_required
 def upload(request):
     categories = Category.objects.all()
     regions = Region.objects.all().values().order_by('name')
 
-
     if request.method == 'POST':
         data = request.POST
         thumbnail = request.FILES.get('thumbnail')
         images = request.FILES.getlist('images')
+        tags = request.FILES.getlist('tag')
+        steps = request.FILES.getlist('tag')
+        ingredients = request.FILES.getlist('tag')
 
-        '''print('data:', data)
-        print('category ID:', data['category'])'''
-        print('thumbnail:', thumbnail)
-        print('images:', images)
-        
         category = Category.objects.get(id=data['category'])
         region = Region.objects.get(id=data['region'])
 
+        print('thumbnail:', type(thumbnail))
+        '''
+        print('tags:', data.getlist('tag'))
+        print('tags:', data['tag'])
+        print('category ID:', data['category'])
+        print('images:', images)
+        '''
 
-        if data['tag'] != '':
-            tag, created = Tag.objects.get_or_create(name=data['tag'])
-        else:
-            tag = None
         recipe = Recipe.objects.create(
             author=request.user.registereduser,
             name=data['name'],
             category=category,
             region=region,
             description=data['description'],
+            steps=steps,
+            ingredients=ingredients
         )
+        if tags:
+            for tag in tags:
+                if tag:
+                    tag, created = Tag.objects.get_or_create(name=tag)
+                    recipe.tags.add(tag)
+        
         if thumbnail:
-            Recipe.objects.filter(id=recipe.id).update(thumbnail=thumbnail)
-
-        recipe.tags.add(tag)
+            recipe.thumbnail = thumbnail
+            recipe.save()
+            print('Thumbnail updated')
 
         for image in images:
             Image.objects.create(
@@ -127,10 +128,6 @@ def updateCookbook(request):
         cookbookRecipe.delete()
     
     return JsonResponse('Cookbook has been updated', safe=False)
-
-'''def addImage(request):
-    context = {}
-    return render(request, 'FGPH/addImage.html', context)'''
 
 def profile(request):
     user = request.user

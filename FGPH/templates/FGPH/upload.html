@@ -26,13 +26,13 @@
                 <div class="card">
                     <div class="m-3">
                         <label class="form-label">Recipe</label>
-                        <input required name="name" class="form-control recipe-field" type="text" placeholder="Enter recipe name">
+                        <input  name="name" class="form-control" type="text" placeholder="Enter recipe name">
                     </div>
 
                     <div class="m-3">
                         <label class="form-label">Category</label>
                         <!--<input name="category" class="form-control" type="text" placeholder="Enter category">-->
-                        <select required name="category" class="form-control category-field">
+                        <select  name="category" class="form-control">
                             <option value="">Select Category...</option>
                             {% for category in categories %}
                             <option value="{{ category.id }}">{{ category.name }}</option>
@@ -42,13 +42,20 @@
 
                     <div class="m-3">
                         <label class="form-label">Tags</label>
-                        <input name="tag" class="form-control" type="text" placeholder="Enter tags">
+                        <div class="multifield-container">
+                            <div class="input-group mb-1">
+                                <input name="tag" class="form-control mb-1" type="text" placeholder="Enter tags">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary delete-button" type="button">x</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
 
                     <div class="m-3">
                         <label class="form-label">Upload Thumbnail</label>
-                        <input required name="thumbnail" class="form-control" type="file">
+                        <input  name="thumbnail" class="form-control" type="file">
                         <!--<input name="image" class="form-control" type="file" multiple>-->
 
                     </div>
@@ -56,7 +63,7 @@
                     <div class="m-3">
                         <label class="form-label">Region</label>
                         <!--<input name="category" class="form-control" type="text" placeholder="Enter category">-->
-                        <select required name="region" class="form-control">
+                        <select  name="region" class="form-control">
                             <option value="">Select Region...</option>
                             {% for region in regions %}
                             <option value="{{ region.id }}">{{ region.name }}</option>
@@ -66,7 +73,7 @@
                 
                     <div class="m-3">
                         <label class="form-label">Description</label>
-                        <textarea required name="description" class="form-control" type="text" placeholder="Enter description"></textarea>
+                        <textarea  name="description" class="form-control" type="text" placeholder="Enter description"></textarea>
                     </div>
 
                     <div class="m-3">
@@ -74,7 +81,7 @@
                         
                         <div class="multifield-container">
                             <div class="input-group mb-1">
-                                <input name="steps" class="form-control step-field mb-1" type="text" placeholder="Add Step">
+                                <input name="step" class="form-control mb-1" type="text" placeholder="Add Step">
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-secondary delete-button" type="button">x</button>
                                 </div>
@@ -86,7 +93,7 @@
                         <label class="form-label">Ingredients</label>
                         <div class="multifield-container">
                             <div class="input-group mb-1">
-                                <input name="ingredients" class="form-control ingredient-field mb-1" type="text" placeholder="Add Ingredient">
+                                <input name="ingredient" class="form-control mb-1" type="text" placeholder="Add Ingredient">
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-secondary delete-button" type="button">x</button>
                                 </div>
@@ -96,7 +103,7 @@
 
                     <div class="m-3">
                         <label class="form-label">Upload Images</label>
-                        <input required name="images" class="form-control" type="file" multiple>
+                        <input  name="images" class="form-control" type="file" multiple>
                     </div>
                 </div>
             </div>
