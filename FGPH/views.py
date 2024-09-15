@@ -10,32 +10,32 @@ from django.http import HttpResponseRedirect
 from .forms import *
 
 # Create your views here.
-
 @login_required
 def upload(request):
     categories = Category.objects.all()
-    regions = Region.objects.all().values().order_by('name')
+    regions = Region.objects.all().order_by('name')
 
     if request.method == 'POST':
         data = request.POST
         thumbnail = request.FILES.get('thumbnail')
         images = request.FILES.getlist('images')
-        tags = request.FILES.getlist('tag')
-        steps = request.FILES.getlist('tag')
-        ingredients = request.FILES.getlist('tag')
+        tags = data.getlist('tag')
+        steps = data.getlist('step')
+        ingredients = data.getlist('ingredient')
 
         category = Category.objects.get(id=data['category'])
         region = Region.objects.get(id=data['region'])
 
-        print('thumbnail:', type(thumbnail))
         '''
+        print('desc:', data['description'])
+        print('thumbnail:', type(thumbnail))
         print('tags:', data.getlist('tag'))
         print('tags:', data['tag'])
         print('category ID:', data['category'])
         print('images:', images)
         '''
 
-        recipe = Recipe.objects.create(
+        recipe, created = Recipe.objects.get_or_create(
             author=request.user.registereduser,
             name=data['name'],
             category=category,
@@ -53,7 +53,7 @@ def upload(request):
         if thumbnail:
             recipe.thumbnail = thumbnail
             recipe.save()
-            print('Thumbnail updated')
+            #print('Thumbnail updated')
 
         for image in images:
             Image.objects.create(
@@ -107,20 +107,36 @@ def recipe(request, recipeId):
     context = {'recipe': recipe, 'images': images}
     return render(request, 'FGPH/recipe.html', context)
 
+def editRecipe(request, recipeId):
+    recipe = Recipe.objects.get(id=recipeId)
+    categories = Category.objects.all()
+    regions = Region.objects.all().order_by('name')
+    tags = recipe.tags.values_list()
+
+    '''print(recipe.tags.values())
+    print('desc:', type(recipe.description))'''
+
+    if request.method == 'POST':
+        upload(request)
+        return redirect('FGPH:cookbook')
+    
+    context = {'recipe': recipe, 'tags': tags, 'categories': categories, 'regions': regions}
+    return render(request, 'FGPH/upload.html', context)
+
 def updateCookbook(request):
     data = json.loads(request.body)
     recipeId = data['recipeId']
     action = data['action']
 
-    print(f'action: {action}')
-    print(f'recipeId: {recipeId}')
+    '''print(f'action: {action}')
+    print(f'recipeId: {recipeId}')'''
 
     cookbookAuthor = request.user.registereduser
     recipe = Recipe.objects.get(id=recipeId)
 
     cookbook, created = Cookbook.objects.get_or_create(cookbookAuthor=cookbookAuthor)
     cookbookRecipe, created = CookbookRecipe.objects.get_or_create(cookbook=cookbook, recipe=recipe)
-    print(cookbookRecipe)
+    #print(cookbookRecipe)
         
     if action == 'add':
         cookbookRecipe.save()

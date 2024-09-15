@@ -43,7 +43,9 @@
 				<hr>
 				
 				<button data-recipe="{{ cookbookRecipe.recipe.id }}" data-action="remove" class="btn btn-outline-secondary remove-recipe">Remove from Cookbook</button>
-				<a href="{% url 'FGPH:recipe' cookbookRecipe.recipe.id %}" data-recipe="{{ recipe.id }}" class="btn btn-outline-success view-recipe">View</a>
+				<a href="{% url 'FGPH:recipe' cookbookRecipe.recipe.id %}" class="btn btn-outline-success view-recipe">View</a>
+                <a href="{% url 'FGPH:editRecipe' cookbookRecipe.recipe.id %}" class="btn btn-outline-primary view-recipe">Edit</a>
+
 				<!--<h4 style="float: right"><i class="me-2 bi bi-heart"></i></h4>-->
 			</div>
 		</div>

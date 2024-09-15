@@ -9,6 +9,7 @@ urlpatterns = [
 
     path("update_cookbook/", views.updateCookbook, name='update_cookbook'),
     path("upload/", views.upload, name='upload'),
+    path("edit_recipe/<str:recipeId>", views.editRecipe, name='editRecipe'),
 
     path("profile/", views.profile, name='profile'),
     path("login/", views.login, name='login'),

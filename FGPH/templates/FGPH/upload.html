@@ -13,12 +13,12 @@
 
 {% block content %}
 <div class="container">
-    <form method="post" action="#" enctype="multipart/form-data">
+    <form method="post" action="" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="row justify-content-center">
             <div class="col-md-4">
                 <div class="row">
-                    <div class="col-auto me-auto"><a class="btn btn-outline-dark mb-2" href="{% url 'FGPH:home' %}">Cancel</a></div>
+                    <div class="col-auto me-auto"><a class="btn btn-outline-dark mb-2" href="javascript:history.back()">Cancel</a></div>
                     <div class="col-auto"><button type="submit" class="btn btn-outline-dark mb-2">Upload <i class="bi bi-upload"></i></button></div>
                     <!--data-recipe="{{ recipe.id }}" data-action="add" class="btn btn-outline-secondary add-recipe"-->
                 </div>
@@ -26,7 +26,7 @@
                 <div class="card">
                     <div class="m-3">
                         <label class="form-label">Recipe</label>
-                        <input  name="name" class="form-control" type="text" placeholder="Enter recipe name">
+                        <input  name="name" value="{{ recipe.name }}" class="form-control" type="text" placeholder="Enter recipe name">
                     </div>
 
                     <div class="m-3">
@@ -35,7 +35,11 @@
                         <select  name="category" class="form-control">
                             <option value="">Select Category...</option>
                             {% for category in categories %}
-                            <option value="{{ category.id }}">{{ category.name }}</option>
+                                {% if category == recipe.category %}
+                                <option selected value="{{ recipe.category.id }}">{{ recipe.category.name }}</option>
+                                {% else %}
+                                <option  value="{{ category.id }}">{{ category.name }}</option>
+                                {% endif %}
                             {% endfor %}
                         </select>
                     </div>
@@ -43,19 +47,30 @@
                     <div class="m-3">
                         <label class="form-label">Tags</label>
                         <div class="multifield-container">
+                            {% if tags %}
+                                {% for id, name in tags %}
+                                <div class="input-group mb-1">
+                                    <input name="tag" value="{{ name }}" class="form-control mb-1" type="text" placeholder="Enter tags">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary delete-button" type="button">x</button>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            {% else %}
                             <div class="input-group mb-1">
                                 <input name="tag" class="form-control mb-1" type="text" placeholder="Enter tags">
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-secondary delete-button" type="button">x</button>
                                 </div>
                             </div>
+                            {% endif %}
                         </div>
                     </div>
 
 
                     <div class="m-3">
                         <label class="form-label">Upload Thumbnail</label>
-                        <input  name="thumbnail" class="form-control" type="file">
+                        <input value="{{ recipe.thumbnail }}" name="thumbnail" class="form-control" type="file">
                         <!--<input name="image" class="form-control" type="file" multiple>-->
 
                     </div>
@@ -66,38 +81,68 @@
                         <select  name="region" class="form-control">
                             <option value="">Select Region...</option>
                             {% for region in regions %}
-                            <option value="{{ region.id }}">{{ region.name }}</option>
+                                {% if region == recipe.region %}
+                                <option selected value="{{ recipe.region.id }}">{{ recipe.region.name }}</option>
+                                {% else %}
+                                <option value="{{ region.id }}">{{ region.name }}</option>
+                                {% endif %}
                             {% endfor %}
                         </select>
                     </div>
                 
                     <div class="m-3">
                         <label class="form-label">Description</label>
+                        {% if recipe.description %}
+                        <textarea  name="description" class="form-control" type="text" placeholder="Enter description">{{ recipe.description }}</textarea>
+                        {% else %}
                         <textarea  name="description" class="form-control" type="text" placeholder="Enter description"></textarea>
+                        {% endif %}
                     </div>
 
                     <div class="m-3">
                         <label class="form-label">Steps</label>
                         
                         <div class="multifield-container">
+                            {% if recipe.steps %}
+                                {% for step in recipe.steps %}
+                                <div class="input-group mb-1">
+                                    <input name="step" value="{{ step }}" class="form-control mb-1" type="text" placeholder="Add Step">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary delete-button" type="button">x</button>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            {% else %}
                             <div class="input-group mb-1">
                                 <input name="step" class="form-control mb-1" type="text" placeholder="Add Step">
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-secondary delete-button" type="button">x</button>
                                 </div>
                             </div>
+                            {% endif %}
                         </div>
                     </div>
 
                     <div class="m-3">
                         <label class="form-label">Ingredients</label>
                         <div class="multifield-container">
+                            {% if recipe.ingredients %}
+                                {% for ingredient in recipe.ingredients %}
+                                <div class="input-group mb-1">
+                                    <input name="ingredient" value="{{ ingredient }}" class="form-control mb-1" type="text" placeholder="Add Ingredient">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary delete-button" type="button">x</button>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            {% else %}
                             <div class="input-group mb-1">
                                 <input name="ingredient" class="form-control mb-1" type="text" placeholder="Add Ingredient">
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-secondary delete-button" type="button">x</button>
                                 </div>
                             </div>
+                            {% endif %}
                         </div>
                     </div>
 
