@@ -2,11 +2,12 @@
 {% load static %}
 
 {% block content %}
-<a class="btn btn-outline-dark" href="{% url 'FGPH:home' %}">&#x2190; Browse Recipes</a>
+<a class="btn btn-outline-dark" href="javascript:history.back()">&#x2190; Go Back</a>
 
 <div class="d-flex mb-3">
   <div class="me-auto p-2"><h4 style="padding-top: 20px;">{{ recipe.name }}</h4></div>
-  <div style="height: fit-content; margin-top: 30px;" class="btn btn-outline-dark ">Add Photo</div>
+  <!--<div style="height: fit-content; margin-top: 30px;" class="btn btn-outline-dark ">Add Photo</div>-->
+  <div style="height: fit-content; margin-top: 30px;" class="btn btn-outline-dark" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">Ingredients</div>
 </div>
 
 <div id="carouselExample" class="carousel slide">
@@ -50,10 +51,30 @@
 
 </div>
 
+  <div class="container-fluid">
+    
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Ingredients</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          {% for ingredient in ingredients %}
+          <li class="nav-item">
+            <a class="nav-link">{{ ingredient }}</a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
 
-{% for step in recipe.steps %}
-    <h4>{{ step }}</h4>
-{% endfor %}
+  <ol class="list-group list-group-numbered">
+  {% for step in recipe.steps %}
+    <li class="list-group-item fs-4 mb-3">{{ step }}</li>
+  {% endfor %}
+  </ol>
 <!--<div class="sticky-bottom d-flex flex-row-reverse pb-4">
     <a class="btn btn-outline-dark" href="{% url 'FGPH:home' %}"><i class="bi bi-upload me-2"></i>Upload Recipe</a>
 </div>-->

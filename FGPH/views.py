@@ -10,8 +10,69 @@ from django.http import HttpResponseRedirect
 from .forms import *
 
 # Create your views here.
+
+def index(request):
+    category = request.GET.get('category')
+    region = request.GET.get('region')
+
+    if category:
+        recipes = Recipe.objects.filter(category__name__contains=category)
+    elif region:
+        recipes = Recipe.objects.filter(region__name__contains=region)
+    else:
+        recipes = Recipe.objects.all()
+
+    categories = Category.objects.all()
+    regions = Region.objects.all().values().order_by('order')
+    #print(regions)
+    context = {'recipes': recipes, 'regions': regions, 'categories': categories}
+    return render(request, 'FGPH/home.html', context)
+
+def cookbook(request):
+    if request.user.is_authenticated:
+        cookbookAuthor = request.user.registereduser
+        cookbook, created = Cookbook.objects.get_or_create(cookbookAuthor=cookbookAuthor)
+        cookbookRecipes = cookbook.recipes.all()
+    else:
+        cookbookRecipes = []
+
+    context = {'cookbookRecipes': cookbookRecipes}
+    return render(request, 'FGPH/cookbook.html', context)
+
+def recipe(request, recipeId):
+    recipe = Recipe.objects.get(id=recipeId)
+    images = recipe.images.all()
+    steps = recipe.steps
+    ingredients = recipe.ingredients
+
+    context = {'recipe': recipe, 'images': images, 'steps': steps, 'ingredients': ingredients}
+    return render(request, 'FGPH/recipe.html', context)
+
+
+def updateCookbook(request):
+    data = json.loads(request.body)
+    recipeId = data['recipeId']
+    action = data['action']
+
+    '''print(f'action: {action}')
+    print(f'recipeId: {recipeId}')'''
+
+    cookbookAuthor = request.user.registereduser
+    recipe = Recipe.objects.get(id=recipeId)
+
+    cookbook, created = Cookbook.objects.get_or_create(cookbookAuthor=cookbookAuthor)
+    cookbookRecipe, created = CookbookRecipe.objects.get_or_create(cookbook=cookbook, recipe=recipe)
+    #print(cookbookRecipe)
+        
+    if action == 'add':
+        cookbookRecipe.save()
+    elif action == 'remove':
+        cookbookRecipe.delete()
+    
+    return JsonResponse('Cookbook has been updated', safe=False)
+
 @login_required
-def upload(request):
+def uploadRecipe(request):
     categories = Category.objects.all()
     regions = Region.objects.all().order_by('name')
 
@@ -72,41 +133,6 @@ def upload(request):
     context = {'categories': categories, 'regions': regions}
     return render(request, 'FGPH/upload.html', context)
 
-def index(request):
-    category = request.GET.get('category')
-    region = request.GET.get('region')
-
-    if category:
-        recipes = Recipe.objects.filter(category__name__contains=category)
-    elif region:
-        recipes = Recipe.objects.filter(region__name__contains=region)
-    else:
-        recipes = Recipe.objects.all()
-
-    categories = Category.objects.all()
-    regions = Region.objects.all().values().order_by('order')
-    #print(regions)
-    context = {'recipes': recipes, 'regions': regions, 'categories': categories}
-    return render(request, 'FGPH/home.html', context)
-
-def cookbook(request):
-    if request.user.is_authenticated:
-        cookbookAuthor = request.user.registereduser
-        cookbook, created = Cookbook.objects.get_or_create(cookbookAuthor=cookbookAuthor)
-        cookbookRecipes = cookbook.recipes.all()
-    else:
-        cookbookRecipes = []
-
-    context = {'cookbookRecipes': cookbookRecipes}
-    return render(request, 'FGPH/cookbook.html', context)
-
-def recipe(request, recipeId):
-    recipe = Recipe.objects.get(id=recipeId)
-    images = recipe.images.all()
-
-    context = {'recipe': recipe, 'images': images}
-    return render(request, 'FGPH/recipe.html', context)
-
 def editRecipe(request, recipeId):
     recipe = Recipe.objects.get(id=recipeId)
     categories = Category.objects.all()
@@ -117,33 +143,18 @@ def editRecipe(request, recipeId):
     print('desc:', type(recipe.description))'''
 
     if request.method == 'POST':
-        upload(request)
+        uploadRecipe(request)
         return redirect('FGPH:cookbook')
     
     context = {'recipe': recipe, 'tags': tags, 'categories': categories, 'regions': regions}
     return render(request, 'FGPH/upload.html', context)
 
-def updateCookbook(request):
-    data = json.loads(request.body)
-    recipeId = data['recipeId']
-    action = data['action']
-
-    '''print(f'action: {action}')
-    print(f'recipeId: {recipeId}')'''
-
-    cookbookAuthor = request.user.registereduser
+def deleteRecipe(request, recipeId):
     recipe = Recipe.objects.get(id=recipeId)
+    recipe.delete()
+    return redirect('FGPH:cookbook')
 
-    cookbook, created = Cookbook.objects.get_or_create(cookbookAuthor=cookbookAuthor)
-    cookbookRecipe, created = CookbookRecipe.objects.get_or_create(cookbook=cookbook, recipe=recipe)
-    #print(cookbookRecipe)
-        
-    if action == 'add':
-        cookbookRecipe.save()
-    elif action == 'remove':
-        cookbookRecipe.delete()
-    
-    return JsonResponse('Cookbook has been updated', safe=False)
+
 
 def profile(request):
     user = request.user
@@ -152,11 +163,6 @@ def profile(request):
 
     context = {'user': user}
     return render(request, 'FGPH/profile.html', context)
-
-
-
-
-
 
 def login(request):
     context = {}
