@@ -5,9 +5,13 @@
 <a class="btn btn-outline-dark" href="javascript:history.back()">&#x2190; Go Back</a>
 
 <div class="d-flex mb-3">
-  <div class="me-auto p-2"><h4 style="padding-top: 20px;">{{ recipe.name }}</h4></div>
+  <div class="d-flex justify-content-start me-auto p-2">
+    <h4 style="padding-top: 20px;">{{ recipe.name }}</h4>
+    <a style="height: fit-content; margin-top: 15px;" class="btn btn-outline-secondary ms-2 me-auto" href="{% url 'FGPH:editRecipe' recipe.id %}">Edit</a>
+  </div>
   <!--<div style="height: fit-content; margin-top: 30px;" class="btn btn-outline-dark ">Add Photo</div>-->
   <div style="height: fit-content; margin-top: 30px;" class="btn btn-outline-dark" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">Ingredients</div>
+
 </div>
 
 <div id="carouselExample" class="carousel slide">
