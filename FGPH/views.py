@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 import json
+
+from django.urls import reverse
 from .models import *
 
 from django.forms import modelformset_factory
@@ -90,6 +92,8 @@ def uploadRecipe(request, *args):
         if args:
             for arg in args:
                 recipeId = arg
+        else:
+            recipeId = None
 
         '''
         print('desc:', data['description'])
@@ -133,7 +137,9 @@ def uploadRecipe(request, *args):
             recipe.thumbnail = thumbnail
             recipe.save()
             #print('Thumbnail updated')
-
+        
+        if images:
+            Image.objects.filter(recipe=recipe).delete()
         for image in images:
             Image.objects.create(
                 recipe=recipe,
@@ -162,6 +168,7 @@ def editRecipe(request, recipeId):
 
     if request.method == 'POST':
         uploadRecipe(request, recipeId)
+        # return HttpResponseRedirect(reverse('FGPH:recipe', args=[recipeId]))
         return redirect('FGPH:cookbook')
     
     context = {'recipe': recipe, 'tags': tags, 'categories': categories, 'regions': regions}

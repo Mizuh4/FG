@@ -11,10 +11,7 @@
 			<div class="box-element product">
 				<h4 class="card-title"><strong>{{ recipe.name }}</strong></h4>
 				<h6 style="line-height: 30px; margin-left: 	0px;">by: {{ recipe.author }} ({{ recipe.author.title }})</h6>
-				<p id="viewdetails" class="collapse card-text">{{ recipe.description }}</p>
-         		
-				<p><a style="text-decoration: none; cursor: pointer;" class="card-text view-details-btn" data-bs-toggle="collapse" data-bs-target="#viewdetails">Description &raquo;</a></p>
-				
+				<p style="word-wrap: break-word;" class="card-text">{{ recipe.description }}</p>				
 				<hr>
 				
 				<button data-recipe="{{ recipe.id }}" data-action="add" class="btn btn-outline-secondary add-recipe">Add to Cookbook</button>

@@ -33,8 +33,12 @@ function addField() {
                         // Now you can manipulate or append the element to the document
                         container.appendChild(element)
                         console.log('Successfully Added a new field.')
+                        container.lastElementChild.children[0].innerHTML = ""
+                        container.lastElementChild.children[0].setAttribute("value", "")
+                        console.log("INNERHTML CLEARED")
                         container.lastElementChild.children[0].focus()
                         deleteField(container);
+                        textareaExpand();
                     }
                     
                     else if (event.key === "Enter" && event.target.value.length === 0) {
@@ -46,6 +50,9 @@ function addField() {
                     }
                 }, false)
             )
+            deleteField(container);
+            textareaExpand()
+            console.log('expand')
         //}
     })
 }
@@ -62,9 +69,21 @@ function deleteField(container) {
     })
 }
 
+function textareaExpand() {
+    document.querySelectorAll('textarea').forEach(textareaEle => {
+        textareaEle.style.height = 'auto';
+        textareaEle.style.height = `${textareaEle.scrollHeight}px`;
+        textareaEle.addEventListener('input', () => {
+            // Code to be executed when user types in textarea
+            textareaEle.style.height = 'auto';
+            textareaEle.style.height = `${textareaEle.scrollHeight}px`;
+            console.log("ahsushad")
+        });
+    })
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     console.log("upload.js");
     multifield();
     addField();
-
 })

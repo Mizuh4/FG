@@ -93,9 +93,9 @@
                     <div class="m-3">
                         <label class="form-label">Description</label>
                         {% if recipe.description %}
-                        <textarea  name="description" class="form-control" type="text" placeholder="Enter description">{{ recipe.description }}</textarea>
+                        <textarea  style="overflow:hidden;" name="description" class="form-control" type="text" placeholder="Enter description">{{ recipe.description }}</textarea>
                         {% else %}
-                        <textarea  name="description" class="form-control" type="text" placeholder="Enter description"></textarea>
+                        <textarea  style="overflow:hidden" name="description" class="form-control" type="text" placeholder="Enter description"></textarea>
                         {% endif %}
                     </div>
 

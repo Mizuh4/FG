@@ -51,6 +51,7 @@ class Recipe(models.Model):
 	ingredients = models.JSONField(null=True)
 
 	date_created = models.DateTimeField(auto_now_add=True, null=True)
+	date_modified = models.DateTimeField(auto_now=True, null=True)
 
 	def __str__(self):
 		return self.name

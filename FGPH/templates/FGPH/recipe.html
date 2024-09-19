@@ -4,17 +4,18 @@
 {% block content %}
 <a class="btn btn-outline-dark" href="javascript:history.back()">&#x2190; Go Back</a>
 
-<div class="d-flex mb-3">
+<div class="d-flex mb-1">
   <div class="d-flex justify-content-start me-auto p-2">
-    <h4 style="padding-top: 20px;">{{ recipe.name }}</h4>
-    <a style="height: fit-content; margin-top: 15px;" class="btn btn-outline-secondary ms-2 me-auto" href="{% url 'FGPH:editRecipe' recipe.id %}">Edit</a>
+    <h3 style="padding-top: 20px;">{{ recipe.name }}</h3>
+    <a style="height: fit-content; margin-top: 20px;" class="btn btn-outline-secondary ms-2 me-auto" href="{% url 'FGPH:editRecipe' recipe.id %}">Edit</a>
   </div>
   <!--<div style="height: fit-content; margin-top: 30px;" class="btn btn-outline-dark ">Add Photo</div>-->
   <div style="height: fit-content; margin-top: 30px;" class="btn btn-outline-dark" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">Ingredients</div>
 </div>
+<p class="ms-2"> <strong>Created:</strong> {{ recipe.date_created }} <strong>Edited:</strong> {{ recipe.date_modified }}<br>Posted by: {{ recipe.author }} ({{ recipe.author.title }})</p>
 
 <div>
-  
+  <p class="ms-2">{{ recipe.description }}</p>
 </div>
 
 <div id="carouselExample" class="carousel slide">
@@ -77,7 +78,7 @@
     </div>
   </div>
 
-  <ol class="list-group list-group-numbered">
+  <ol style="margin-top: 50px;" class="list-group list-group-numbered">
   {% for step in recipe.steps %}
     <li class="list-group-item fs-4 mb-3">{{ step }}</li>
   {% endfor %}
