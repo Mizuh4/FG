@@ -1,5 +1,20 @@
 document.addEventListener("DOMContentLoaded", function() {
     console.log('recipe.js')
+    console.log('hello')
+
+    document.querySelectorAll(".carousel-indicators").forEach(indicator => {
+        indicator.classList.remove('active')
+    })
+    document.querySelector(".carousel-indicators").classList.add('active')
+
+    var i = 0;
+    document.querySelectorAll(".carousel-indicators-btn").forEach(btn => {
+        console.log(i)
+        btn.setAttribute("data-bs-slide-to", `${i}`)
+        i++
+
+    })
+
     // Get the modal
     document.querySelectorAll(".carousel-item").forEach(item => {
         item.classList.remove('active')
@@ -16,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function() {
         img.onclick = () => {
             console.log(img.src)
             console.log(img.alt)
-            document.querySelectorAll(".carousel-control-prev, .carousel-control-next").forEach(button => {
+            document.querySelectorAll(".carousel-control-prev, .carousel-control-next, .carousel-indicators").forEach(button => {
                 button.style.visibility = 'hidden'
             })
             modal.style.display = "block";
@@ -29,11 +44,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // When the user clicks on <span> (x), close the modal
         span.onclick = function() {
-        document.querySelectorAll(".carousel-control-prev, .carousel-control-next").forEach(button => {
+        document.querySelectorAll(".carousel-control-prev, .carousel-control-next, .carousel-indicators").forEach(button => {
             button.style.visibility = 'visible'
         })
         modal.style.display = "none";
         
         }
-    })  
+    })
 })

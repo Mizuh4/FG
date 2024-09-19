@@ -44,6 +44,7 @@ def cookbook(request):
 def recipe(request, recipeId):
     recipe = Recipe.objects.get(id=recipeId)
     images = recipe.images.all()
+    print(images.order_by("id"))
     steps = recipe.steps
     ingredients = recipe.ingredients
 
