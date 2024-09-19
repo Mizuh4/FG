@@ -106,7 +106,7 @@
                             {% if recipe.steps %}
                                 {% for step in recipe.steps %}
                                 <div class="input-group mb-1">
-                                    <input name="step" value="{{ step }}" class="form-control mb-1" type="text" placeholder="Add Step">
+                                    <textarea name="step" style="overflow:hidden" class="form-control mb-1" type="text" placeholder="Add Step">{{ step }}</textarea>
                                     <div class="input-group-append">
                                         <button class="btn btn-outline-secondary delete-button" type="button">x</button>
                                     </div>

@@ -72,7 +72,7 @@ def updateCookbook(request):
     return JsonResponse('Cookbook has been updated', safe=False)
 
 @login_required
-def uploadRecipe(request):
+def uploadRecipe(request, *args):
     categories = Category.objects.all()
     regions = Region.objects.all().order_by('name')
 
@@ -86,6 +86,10 @@ def uploadRecipe(request):
 
         category = Category.objects.get(id=data['category'])
         region = Region.objects.get(id=data['region'])
+        
+        if args:
+            for arg in args:
+                recipeId = arg
 
         '''
         print('desc:', data['description'])
@@ -96,7 +100,20 @@ def uploadRecipe(request):
         print('images:', images)
         '''
 
-        recipe, created = Recipe.objects.get_or_create(
+        recipe, created = Recipe.objects.update_or_create(
+            id=recipeId,
+            defaults={
+                "author": request.user.registereduser,
+                'name': data['name'],
+                'category': category,
+                'region': region,
+                'description': data['description'],
+                'steps': steps,
+                'ingredients': ingredients
+                }
+        )
+
+        '''recipe, created = Recipe.objects.get_or_create(
             author=request.user.registereduser,
             name=data['name'],
             category=category,
@@ -104,7 +121,8 @@ def uploadRecipe(request):
             description=data['description'],
             steps=steps,
             ingredients=ingredients
-        )
+        )'''
+
         if tags:
             for tag in tags:
                 if tag:
@@ -143,7 +161,7 @@ def editRecipe(request, recipeId):
     print('desc:', type(recipe.description))'''
 
     if request.method == 'POST':
-        uploadRecipe(request)
+        uploadRecipe(request, recipeId)
         return redirect('FGPH:cookbook')
     
     context = {'recipe': recipe, 'tags': tags, 'categories': categories, 'regions': regions}
