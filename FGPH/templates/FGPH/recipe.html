@@ -12,7 +12,11 @@
   <!--<div style="height: fit-content; margin-top: 30px;" class="btn btn-outline-dark ">Add Photo</div>-->
   <div style="height: fit-content; margin-top: 30px;" class="btn btn-outline-dark" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">Ingredients</div>
 </div>
-<p class="ms-2"> <strong>Created:</strong> {{ recipe.date_created }} <strong>Edited:</strong> {{ recipe.date_modified }}<br>Posted by: {{ recipe.author }} ({{ recipe.author.title }})</p>
+
+<div style="margin-bottom: 30px;">
+  <p class="ms-2"> <strong>Created:</strong> {{ recipe.date_created }} <strong>Edited:</strong> {{ recipe.date_modified }}</p>
+  <p style="line-height: 10px;" class="ms-2">Posted by: {{ recipe.author }} ({{ recipe.author.title }})</p>
+</div>
 
 <div>
   <p class="ms-2">{{ recipe.description }}</p>

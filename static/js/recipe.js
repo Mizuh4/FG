@@ -1,14 +1,10 @@
 document.addEventListener("DOMContentLoaded", function() {
-    console.log('recipe.js')
-    console.log('hello')
-
-    document.querySelectorAll(".carousel-indicators").forEach(indicator => {
-        indicator.classList.remove('active')
-    })
-    document.querySelector(".carousel-indicators").classList.add('active')
-
+    console.log('recipe.js hi')
+    
     var i = 0;
     document.querySelectorAll(".carousel-indicators-btn").forEach(btn => {
+        btn.classList.remove('active')
+        document.querySelector(".carousel-indicators-btn").classList.add('active')
         console.log(i)
         btn.setAttribute("data-bs-slide-to", `${i}`)
         i++
@@ -18,8 +14,8 @@ document.addEventListener("DOMContentLoaded", function() {
     // Get the modal
     document.querySelectorAll(".carousel-item").forEach(item => {
         item.classList.remove('active')
-        console.log('hello')
         document.querySelector(".carousel-item").classList.add('active')
+        
         // Get the image and insert it inside the modal - use its "alt" text as a caption
         var modal = item.querySelector(".myModal");
         var img = item.querySelector(".myImg");
