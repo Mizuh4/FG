@@ -3,10 +3,13 @@ from django.http import JsonResponse
 import json
 
 from django.urls import reverse
+
+from FGPH.decorators import unauthenticated_user
 from .models import *
 
 from django.forms import modelformset_factory
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.http import HttpResponseRedirect
@@ -31,6 +34,7 @@ def index(request):
     context = {'recipes': recipes, 'regions': regions, 'categories': categories}
     return render(request, 'FGPH/home.html', context)
 
+@login_required(login_url='FGPH:login')
 def cookbook(request):
     if request.user.is_authenticated:
         cookbookAuthor = request.user.registereduser
@@ -52,7 +56,7 @@ def recipe(request, recipeId):
     context = {'recipe': recipe, 'images': images, 'steps': steps, 'ingredients': ingredients}
     return render(request, 'FGPH/recipe.html', context)
 
-
+@login_required(login_url='FGPH:login')
 def updateCookbook(request):
     data = json.loads(request.body)
     recipeId = data['recipeId']
@@ -75,7 +79,7 @@ def updateCookbook(request):
     
     return JsonResponse('Cookbook has been updated', safe=False)
 
-@login_required
+@login_required(login_url='FGPH:login')
 def uploadRecipe(request, *args):
     categories = Category.objects.all()
     regions = Region.objects.all().order_by('name')
@@ -159,6 +163,7 @@ def uploadRecipe(request, *args):
     context = {'categories': categories, 'regions': regions}
     return render(request, 'FGPH/upload.html', context)
 
+@login_required(login_url='FGPH:login')
 def editRecipe(request, recipeId):
     recipe = Recipe.objects.get(id=recipeId)
     categories = Category.objects.all()
@@ -176,16 +181,16 @@ def editRecipe(request, recipeId):
     context = {'recipe': recipe, 'tags': tags, 'categories': categories, 'regions': regions}
     return render(request, 'FGPH/upload.html', context)
 
+@login_required
 def deleteRecipe(request, recipeId):
     recipe = Recipe.objects.get(id=recipeId)
     recipe.delete()
     return redirect('FGPH:cookbook')
 
-
+@login_required(login_url='FGPH:login')
 def profile(request):
     user = request.user
     #group = list(user.groups.values_list('name', flat = True))
-
 
     context = {'user': user}
     return render(request, 'FGPH/profile.html', context)
@@ -232,24 +237,3 @@ def loginPage(request):
 def logoutUser(request):
     logout(request)
     return HttpResponseRedirect(reverse('FGPH:login'))
-
-
-    form = CreateUserForm()
-
-    if request.method == 'POST':
-        form = CreateUserForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            username = form.cleaned_data.get('username')
-
-            '''group = Group.objects.get(name='customer')
-            user.groups.add(group)
-            Customer.objects.create(
-                user=user,
-            )'''
-
-            messages.success(request, f'Account was created for {username}')
-            return HttpResponseRedirect(reverse('accounts:login'))
-
-    context = {'form': form}
-    return render(request, 'accounts/register.html', context)
