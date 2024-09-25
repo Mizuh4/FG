@@ -20,11 +20,14 @@ from .forms import *
 def index(request):
     category = request.GET.get('category')
     region = request.GET.get('region')
+    tag = request.GET.get('tag')
 
     if category:
         recipes = Recipe.objects.filter(category__name__contains=category)
     elif region:
         recipes = Recipe.objects.filter(region__name__contains=region)
+    elif tag:
+        recipes = Recipe.objects.filter(tags__name__contains=tag)
     else:
         recipes = Recipe.objects.all()
 
@@ -89,6 +92,7 @@ def uploadRecipe(request, *args):
         thumbnail = request.FILES.get('thumbnail')
         images = request.FILES.getlist('images')
         tags = data.getlist('tag')
+        print(type(tags))
         steps = data.getlist('step')
         ingredients = data.getlist('ingredient')
 
@@ -134,9 +138,10 @@ def uploadRecipe(request, *args):
         )'''
 
         if tags:
+            recipe.tags.clear()
             for tag in tags:
                 if tag:
-                    tag, created = Tag.objects.get_or_create(name=tag)
+                    tag, created = Tag.objects.get_or_create(name__iexact=tag)
                     recipe.tags.add(tag)
         
         if thumbnail:

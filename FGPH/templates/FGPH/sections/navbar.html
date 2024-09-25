@@ -18,7 +18,7 @@
             <li><a class="dropdown-item" href="{% url 'FGPH:home' %}?category={{ category.name }}">{{ category.name }}</a></li>
             {% endfor %}
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="{% url 'FGPH:cookbook' %}">Cookbook</a></li>
+            <li><a class="dropdown-item" href="{% url 'FGPH:home' %}?tag=FNRI">FNRI</a></li>
           </ul>
         </li>
         <li class="nav-item dropdown">
@@ -36,6 +36,7 @@
           </a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="{% url 'FGPH:profile' %}">Profile</a></li>
+            <li><a class="dropdown-item" href="{% url 'FGPH:cookbook' %}">Cookbook</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="{% url 'FGPH:logout' %}">Logout</a></li>
           </ul>
