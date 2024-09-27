@@ -49,6 +49,9 @@ class Recipe(models.Model):
 	description = models.CharField(max_length=200, null=True, blank=True)
 	steps = models.JSONField(null=True)
 	ingredients = models.JSONField(null=True)
+	preparation_time = models.CharField(max_length=64)
+	serving_size = models.CharField(max_length=64)
+
 
 	date_created = models.DateTimeField(auto_now_add=True, null=True)
 	date_modified = models.DateTimeField(auto_now=True, null=True)
