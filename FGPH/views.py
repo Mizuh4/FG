@@ -95,6 +95,7 @@ def uploadRecipe(request, *args):
         print(type(tags))
         steps = data.getlist('step')
         ingredients = data.getlist('ingredient')
+        serving_size = data.get('serving_size')
 
         category = Category.objects.get(id=data['category'])
         region = Region.objects.get(id=data['region'])
@@ -123,7 +124,9 @@ def uploadRecipe(request, *args):
                 'region': region,
                 'description': data['description'],
                 'steps': steps,
-                'ingredients': ingredients
+                'ingredients': ingredients,
+                'preparation_time': data['preparation_time'],
+                'serving_size': data['serving_size'],
                 }
         )
 
@@ -136,6 +139,10 @@ def uploadRecipe(request, *args):
             steps=steps,
             ingredients=ingredients
         )'''
+
+        if serving_size:
+            recipe.serving_size = serving_size
+            recipe.save()
 
         if tags:
             recipe.tags.clear()

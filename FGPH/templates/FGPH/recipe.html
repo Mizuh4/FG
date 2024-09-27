@@ -15,7 +15,7 @@
 
 <div style="margin-bottom: 30px;">
   <p class="ms-2"> <strong>Created:</strong> {{ recipe.date_created }} <strong>Edited:</strong> {{ recipe.date_modified }}</p>
-  <p style="line-height: 10px;" class="ms-2">Posted by: {{ recipe.author }} ({{ recipe.author.title }})</p>
+  <p style="line-height: 10px;" class="ms-2"><strong>Posted by:</strong> {{ recipe.author }} ({{ recipe.author.title }})</p>
 </div>
 
 <div>
@@ -77,6 +77,9 @@
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body">
+        <p class="ms-3"><strong>Serving Size:</strong> {{ recipe.serving_size }} pax</p>
+        <p class="ms-3"><strong>Preparation Time:</strong> {{ recipe.preparation_time }}</p>
+      
         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
           {% for ingredient in ingredients %}
           <li class="nav-item">
