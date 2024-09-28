@@ -37,6 +37,7 @@ def index(request):
     context = {'recipes': recipes, 'regions': regions, 'categories': categories}
     return render(request, 'FGPH/home.html', context)
 
+
 @login_required(login_url='FGPH:login')
 def cookbook(request):
     if request.user.is_authenticated:
@@ -50,13 +51,14 @@ def cookbook(request):
     return render(request, 'FGPH/cookbook.html', context)
 
 def recipe(request, recipeId):
+    categories = Category.objects.all()
     recipe = Recipe.objects.get(id=recipeId)
     images = recipe.images.all()
     print(images.order_by("id"))
     steps = recipe.steps
     ingredients = recipe.ingredients
 
-    context = {'recipe': recipe, 'images': images, 'steps': steps, 'ingredients': ingredients}
+    context = {'categories': categories, 'recipe': recipe, 'images': images, 'steps': steps, 'ingredients': ingredients}
     return render(request, 'FGPH/recipe.html', context)
 
 @login_required(login_url='FGPH:login')
@@ -248,4 +250,4 @@ def loginPage(request):
 
 def logoutUser(request):
     logout(request)
-    return HttpResponseRedirect(reverse('FGPH:login'))
+    return HttpResponseRedirect(reverse('FGPH:home'))

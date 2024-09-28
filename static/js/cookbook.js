@@ -8,7 +8,9 @@ function toCookbook() {
             console.log('USER: ', user)
             if (user === 'AnonymousUser') {
                 console.log('Not logged in.')
+                window.location.href = '/login/';
             } else {
+                console.log('Logged in.')
                 updateCookbook(recipeId, action)
             }
         }
@@ -34,6 +36,7 @@ function updateCookbook(recipeId, action) {
     .then(data => {
         console.log('data:', data)
         location.reload()
+        alert('Hello, World')
     })
 }
 
