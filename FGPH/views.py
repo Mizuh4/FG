@@ -9,6 +9,7 @@ from .models import *
 
 from django.forms import modelformset_factory
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -220,9 +221,9 @@ def register(request):
             user = form.save()
             username = form.cleaned_data.get('username')
 
-            '''group = Group.objects.get(name='customer')
+            '''group = Group.objects.get(name='user')
             user.groups.add(group)
-            Customer.objects.create(
+            RegisteredUser.objects.create(
                 user=user,
             )'''
 
