@@ -2,19 +2,20 @@ import json
 from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
 class RegisteredUser(models.Model):
 	user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
 	name = models.CharField(max_length=200, null=True)
 	email = models.CharField(max_length=200)
-	title = models.CharField(max_length=200, null=True)
+	title = models.CharField(default="", max_length=200, blank=True)
 	profile_pic = models.ImageField(default="pfp.png", null=True, blank=True)
 	date_created = models.DateTimeField(auto_now_add=True, null=True)
 	
 	def __str__(self):
-	    return self.name
-    
+	    return str(self.name)
+
 class Region(models.Model):
 	name = models.CharField(max_length=64, null=True)
 	alias = models.CharField(max_length=64, null=True, blank=True)
@@ -49,9 +50,15 @@ class Recipe(models.Model):
 	description = models.CharField(max_length=200, null=True, blank=True)
 	steps = models.JSONField(null=True)
 	ingredients = models.JSONField(null=True)
-	preparation_time = models.CharField(max_length=64)
-	serving_size = models.CharField(max_length=64)
-
+	preparation_time = models.CharField(max_length=64, null=True, blank=True)
+	serving_size = models.IntegerField(
+		null=True,
+		blank=True,
+        validators=[
+            MaxValueValidator(500),
+            MinValueValidator(1)
+        ]
+    )
 
 	date_created = models.DateTimeField(auto_now_add=True, null=True)
 	date_modified = models.DateTimeField(auto_now=True, null=True)

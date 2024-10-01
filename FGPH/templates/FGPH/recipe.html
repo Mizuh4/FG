@@ -7,7 +7,10 @@
 <div class="d-flex mb-1">
   <div class="d-flex justify-content-start me-auto p-2">
     <h3 style="padding-top: 20px;">{{ recipe.name }}</h3>
+    {% if request.user == recipe.author.user %}
     <a style="height: fit-content; margin-top: 20px;" class="btn btn-outline-secondary ms-2 me-auto" href="{% url 'FGPH:editRecipe' recipe.id %}">Edit</a>
+    {% endif %}
+
   </div>
   <!--<div style="height: fit-content; margin-top: 30px;" class="btn btn-outline-dark ">Add Photo</div>-->
   <div style="height: fit-content; margin-top: 30px;" class="btn btn-outline-dark" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">Ingredients</div>
@@ -15,7 +18,7 @@
 
 <div style="margin-bottom: 30px;">
   <p class="ms-2"> <strong>Created:</strong> {{ recipe.date_created }} <strong>Edited:</strong> {{ recipe.date_modified }}</p>
-  <p style="line-height: 10px;" class="ms-2">Posted by: {{ recipe.author }} ({{ recipe.author.title }})</p>
+  <p style="line-height: 10px;" class="ms-2"><strong>Posted by:</strong> {{ recipe.author }} ({{ recipe.author.title }})</p>
 </div>
 
 <div>
@@ -77,6 +80,9 @@
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body">
+        <p class="ms-3"><strong>Serving Size:</strong> {{ recipe.serving_size }} pax</p>
+        <p class="ms-3"><strong>Preparation Time:</strong> {{ recipe.preparation_time }}</p>
+      
         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
           {% for ingredient in ingredients %}
           <li class="nav-item">

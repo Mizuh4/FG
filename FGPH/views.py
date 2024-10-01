@@ -9,6 +9,7 @@ from .models import *
 
 from django.forms import modelformset_factory
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -37,6 +38,7 @@ def index(request):
     context = {'recipes': recipes, 'regions': regions, 'categories': categories}
     return render(request, 'FGPH/home.html', context)
 
+
 @login_required(login_url='FGPH:login')
 def cookbook(request):
     if request.user.is_authenticated:
@@ -50,13 +52,14 @@ def cookbook(request):
     return render(request, 'FGPH/cookbook.html', context)
 
 def recipe(request, recipeId):
+    categories = Category.objects.all()
     recipe = Recipe.objects.get(id=recipeId)
     images = recipe.images.all()
     print(images.order_by("id"))
     steps = recipe.steps
     ingredients = recipe.ingredients
 
-    context = {'recipe': recipe, 'images': images, 'steps': steps, 'ingredients': ingredients}
+    context = {'categories': categories, 'recipe': recipe, 'images': images, 'steps': steps, 'ingredients': ingredients}
     return render(request, 'FGPH/recipe.html', context)
 
 @login_required(login_url='FGPH:login')
@@ -95,6 +98,7 @@ def uploadRecipe(request, *args):
         print(type(tags))
         steps = data.getlist('step')
         ingredients = data.getlist('ingredient')
+        serving_size = data.get('serving_size')
 
         category = Category.objects.get(id=data['category'])
         region = Region.objects.get(id=data['region'])
@@ -123,7 +127,9 @@ def uploadRecipe(request, *args):
                 'region': region,
                 'description': data['description'],
                 'steps': steps,
-                'ingredients': ingredients
+                'ingredients': ingredients,
+                'preparation_time': data['preparation_time'],
+                'serving_size': data['serving_size'],
                 }
         )
 
@@ -136,6 +142,10 @@ def uploadRecipe(request, *args):
             steps=steps,
             ingredients=ingredients
         )'''
+
+        if serving_size:
+            recipe.serving_size = serving_size
+            recipe.save()
 
         if tags:
             recipe.tags.clear()
@@ -211,9 +221,9 @@ def register(request):
             user = form.save()
             username = form.cleaned_data.get('username')
 
-            '''group = Group.objects.get(name='customer')
+            '''group = Group.objects.get(name='user')
             user.groups.add(group)
-            Customer.objects.create(
+            RegisteredUser.objects.create(
                 user=user,
             )'''
 
@@ -241,4 +251,4 @@ def loginPage(request):
 
 def logoutUser(request):
     logout(request)
-    return HttpResponseRedirect(reverse('FGPH:login'))
+    return HttpResponseRedirect(reverse('FGPH:home'))

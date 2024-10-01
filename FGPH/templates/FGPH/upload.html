@@ -106,7 +106,7 @@
                             {% if recipe.steps %}
                                 {% for step in recipe.steps %}
                                 <div class="input-group mb-1">
-                                    <textarea name="step" style="overflow:hidden" class="form-control mb-1" type="text" placeholder="Add Step">{{ step }}</textarea>
+                                    <textarea name="step" style="overflow:hidden" class="form-control mb-1" type="text" placeholder="Add step">{{ step }}</textarea>
                                     <div class="input-group-append">
                                         <button style="height: 100%;" class="btn btn-outline-secondary delete-button" type="button">x</button>
                                     </div>
@@ -114,7 +114,7 @@
                                 {% endfor %}
                             {% else %}
                             <div class="input-group mb-1">
-                                <input name="step" class="form-control mb-1" type="text" placeholder="Add Step">
+                                <input name="step" class="form-control mb-1" type="text" placeholder="Add step">
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-secondary delete-button" type="button">x</button>
                                 </div>
@@ -129,7 +129,7 @@
                             {% if recipe.ingredients %}
                                 {% for ingredient in recipe.ingredients %}
                                 <div class="input-group mb-1">
-                                    <input name="ingredient" value="{{ ingredient }}" class="form-control mb-1" type="text" placeholder="Add Ingredient">
+                                    <input name="ingredient" value="{{ ingredient }}" class="form-control mb-1" type="text" placeholder="Add ingredient">
                                     <div class="input-group-append">
                                         <button class="btn btn-outline-secondary delete-button" type="button">x</button>
                                     </div>
@@ -137,13 +137,31 @@
                                 {% endfor %}
                             {% else %}
                             <div class="input-group mb-1">
-                                <input name="ingredient" class="form-control mb-1" type="text" placeholder="Add Ingredient">
+                                <input name="ingredient" class="form-control mb-1" type="text" placeholder="Add ingredient">
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-secondary delete-button" type="button">x</button>
                                 </div>
                             </div>
                             {% endif %}
                         </div>
+                    </div>
+
+                    <div class="m-3">
+                        <label class="form-label">Serving Size (pax)</label>
+                        {% if recipe.serving_size %}
+                        <input required name="serving_size" value="{{ recipe.serving_size }}" class="form-control" min="1" max="500" type="number" placeholder="Enter servings">
+                        {% else %}
+                        <input required name="serving_size" value="1" class="form-control" min="1" max="500" type="number" placeholder="Enter servings">
+                        {% endif %}
+                    </div>
+
+                    <div class="m-3">
+                        <label class="form-label">Preparation Time</label>
+                        {% if recipe.preparation_time %}
+                        <input required name="preparation_time" value="{{ recipe.preparation_time }}" class="form-control" type="text" placeholder="Enter estimated preparation time">
+                        {% else %}
+                        <input required name="preparation_time" class="form-control" type="text" placeholder="Enter estimated preparation time">
+                        {% endif %}
                     </div>
 
                     <div class="m-3">
