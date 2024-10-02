@@ -15,26 +15,30 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.http import HttpResponseRedirect
+from django.db.models import Q
 from .forms import *
 
 # Create your views here.
-
 def index(request):
+    categories = Category.objects.all()
+    regions = Region.objects.all().values().order_by('order')
+
     category = request.GET.get('category')
     region = request.GET.get('region')
-    tag = request.GET.get('tag')
-
+    query = request.GET.get("q")
+    
     if category:
         recipes = Recipe.objects.filter(category__name__contains=category)
     elif region:
         recipes = Recipe.objects.filter(region__name__contains=region)
-    elif tag:
-        recipes = Recipe.objects.filter(tags__name__contains=tag)
+    elif query:
+        recipes = Recipe.objects.filter(
+            Q(name__icontains=query) | Q(tags__name__icontains=query) | Q(author__name__icontains=query) |
+            Q(ingredients__icontains=query)
+        ).distinct()
     else:
         recipes = Recipe.objects.all()
 
-    categories = Category.objects.all()
-    regions = Region.objects.all().values().order_by('order')
     #print(regions)
     context = {'recipes': recipes, 'regions': regions, 'categories': categories}
     return render(request, 'FGPH/home.html', context)

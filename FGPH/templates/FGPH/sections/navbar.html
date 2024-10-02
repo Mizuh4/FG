@@ -50,9 +50,15 @@
         </li>
         {% endif %}
       </ul>
-      <form class="d-flex" role="search">
+      
+      <!--<form class="d-flex" role="search">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+      </form>-->
+
+      <form action="{% url 'FGPH:home' %}" method="get">
+        <input class="form-control me-2" name="q" type="text" placeholder="Search Recipe.." aria-label="Search">
       </form>
+
       {% if request.user.is_authenticated %}
       <div style="text-align: center;" class="">
         <a class="navbar-brand">Hello, {{ request.user.username }}</a>

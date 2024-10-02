@@ -36,7 +36,7 @@ function updateCookbook(recipeId, action) {
     .then(data => {
         console.log('data:', data)
         location.reload()
-        alert('Hello, World')
+        alert('Recipe has been added to cookbook')
     })
 }
 
