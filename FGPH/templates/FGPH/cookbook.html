@@ -2,8 +2,10 @@
 {% load static %}
 
 {% block content %}
-<h4>Cookbook</h4>
-<div class="row">
+<a style="margin-bottom: 30px;" class="btn btn-outline-dark" href="{% url 'FGPH:home' %}">&#x2190; Browse Recipes</a>
+<h4 style="text-align: center;">{{ request.user.registereduser.name }}'s Cookbook</h4>
+
+<!--<div class="row">
     <div class="col-lg-12">
         <div class="box-element">
 
@@ -15,15 +17,16 @@
                 <tr>
                     <th><h5>Search: </h5></th>
                 </tr>
-            </table>
+            </table>-
 
         </div>
 
         <br>
         
     </div>
-</div>
+</div>-->
 
+<!--
 <ul class="nav nav-tabs">
     <li class="nav-item">
         <a class="nav-link" style="color: black;">Saved</a>
@@ -32,7 +35,7 @@
         <a class="nav-link active" style="color: black;">Created</a>
     </li>
 </ul>
-
+-->
 <div class="row">
     {% for cookbookRecipe in cookbookRecipes %}
 		<div class="col-lg-4">
@@ -44,9 +47,10 @@
 				
 				<button data-recipe="{{ cookbookRecipe.recipe.id }}" data-action="remove" class="btn btn-outline-secondary remove-recipe">Remove from Cookbook</button>
 				<a href="{% url 'FGPH:recipe' cookbookRecipe.recipe.id %}" class="btn btn-outline-success">View</a>
+                {% if request.user == cookbookRecipe.recipe.author %}
                 <a href="{% url 'FGPH:editRecipe' cookbookRecipe.recipe.id %}" class="btn btn-outline-primary">Edit</a>
                 <a href="{% url 'FGPH:deleteRecipe' cookbookRecipe.recipe.id %}" class="btn btn-outline-danger">Delete</a>
-
+                {% endif %}
 
 				<!--<h4 style="float: right"><i class="me-2 bi bi-heart"></i></h4>-->
 			</div>
