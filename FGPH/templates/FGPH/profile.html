@@ -4,7 +4,8 @@
      <div class="row">
 		<div class="col-lg-6">
 			<div class="box-element">
-				<a  class="btn btn-outline-dark" href="javascript:history.back()">&#x2190; Go Back</a>
+				<!--javascript:history.back()-->
+				<a  class="btn btn-outline-dark" href="{% url 'FGPH:home' %}">&#x2190; Home</a>
 				<hr>
 				<h3>{{ user.username }}</h3>
 			</div>
@@ -12,7 +13,10 @@
 
 		<div class="col-lg-6">
 			<div class="box-element" id="form-wrapper">
-				<form id="form">
+				{% for message in messages %}
+                    <p id="messages">{{ message }}</p>
+                {% endfor %}
+				<form method="post" action="">
 					{% csrf_token %}
 					<div id="user-info">
 						<p class="mt-2">Account Information:</p>
@@ -22,7 +26,7 @@
 							<input required class="form-control profile-field" type="text" name="username" placeholder="Username.." value="{{ user.username }}">
 						</div>
 						<div class="form-field">
-							<input required class="form-control profile-field" type="password" name="password" placeholder="Password..">
+							<input required class="form-control profile-field" type="password" name="password" placeholder="Password.." autocomplete="new-password">
 						</div>
 						<div class="form-field">
 							<label>Email</label>
@@ -48,10 +52,10 @@
 					</div>
 
 					<hr>
-						<input id="form-button" class="btn btn-success btn-block" type="submit" value="Update">
-						<button class="btn btn-secondary btn-block reload-button">Cancel</button>
-						<a href="#" style="float: right;" class="me-2">Forgot password?</a>
-					</form>
+					<input id="form-button" class="btn btn-success btn-block" type="submit" value="Update">
+					<button class="btn btn-secondary btn-block reload-button">Cancel</button>
+					<a href="{% url 'FGPH:password_reset' %}" style="float: right;" class="me-2">Forgot password?</a>
+				</form>
 			</div>
 		</div>
 	</div>

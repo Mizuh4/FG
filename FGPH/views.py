@@ -1,3 +1,4 @@
+from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 import json
@@ -98,7 +99,7 @@ def uploadRecipe(request, *args):
         print(type(tags))
         steps = data.getlist('step')
         ingredients = data.getlist('ingredient')
-        serving_size = data.get('serving_size')
+        #serving_size = data.get('serving_size')
 
         category = Category.objects.get(id=data['category'])
         region = Region.objects.get(id=data['region'])
@@ -121,9 +122,10 @@ def uploadRecipe(request, *args):
         recipe, created = Recipe.objects.update_or_create(
             id=recipeId,
             defaults={
-                "author": request.user.registereduser,
+                'author': request.user.registereduser,
                 'name': data['name'],
                 'category': category,
+                'thumbnail': thumbnail,
                 'region': region,
                 'description': data['description'],
                 'steps': steps,
@@ -143,9 +145,9 @@ def uploadRecipe(request, *args):
             ingredients=ingredients
         )'''
 
-        if serving_size:
+        '''if serving_size:
             recipe.serving_size = serving_size
-            recipe.save()
+            recipe.save()'''
 
         if tags:
             recipe.tags.clear()
@@ -154,10 +156,10 @@ def uploadRecipe(request, *args):
                     tag, created = Tag.objects.get_or_create(name__iexact=tag)
                     recipe.tags.add(tag)
         
-        if thumbnail:
+        '''if thumbnail:
             recipe.thumbnail = thumbnail
             recipe.save()
-            #print('Thumbnail updated')
+            #print('Thumbnail updated')'''
         
         if images:
             Image.objects.filter(recipe=recipe).delete()
@@ -205,6 +207,26 @@ def deleteRecipe(request, recipeId):
 @login_required(login_url='FGPH:login')
 def profile(request):
     user = request.user
+    if request.method == 'POST':
+        data = request.POST
+        username = request.user.username
+        password = data.get('password')
+
+        if authenticate(request, username=username, password=password) is not None:
+            user.username = data['username']
+            user.email = data['email']
+            user.registereduser.name = data['name']
+            user.registereduser.title = data['title']
+            try:
+                user.save()
+                messages.success(request, 'Profile has been updated.')
+            except IntegrityError:
+                messages.info(request, 'Username already exists.')
+                
+        else:
+            messages.info(request, 'Password is incorrect.')
+            print('Password is incorrect.')
+
     #group = list(user.groups.values_list('name', flat = True))
 
     context = {'user': user}
