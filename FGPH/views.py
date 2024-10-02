@@ -101,7 +101,7 @@ def uploadRecipe(request, *args):
         thumbnail = request.FILES.get('thumbnail')
         images = request.FILES.getlist('images')
         tags = data.getlist('tag')
-        print(type(tags))
+        print(tags)
         steps = data.getlist('step')
         ingredients = data.getlist('ingredient')
         #serving_size = data.get('serving_size')
@@ -158,6 +158,7 @@ def uploadRecipe(request, *args):
             for tag in tags:
                 if tag:
                     tag, created = Tag.objects.get_or_create(name__iexact=tag)
+                    print(tag)
                     recipe.tags.add(tag)
         
         if thumbnail:
