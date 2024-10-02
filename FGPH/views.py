@@ -46,6 +46,7 @@ def index(request):
 
 @login_required(login_url='FGPH:login')
 def cookbook(request):
+    categories = Category.objects.all()
     if request.user.is_authenticated:
         cookbookAuthor = request.user.registereduser
         cookbook, created = Cookbook.objects.get_or_create(cookbookAuthor=cookbookAuthor)
@@ -53,7 +54,7 @@ def cookbook(request):
     else:
         cookbookRecipes = []
 
-    context = {'cookbookRecipes': cookbookRecipes}
+    context = {'cookbookRecipes': cookbookRecipes, 'categories': categories}
     return render(request, 'FGPH/cookbook.html', context)
 
 def recipe(request, recipeId):
@@ -209,6 +210,7 @@ def deleteRecipe(request, recipeId):
 
 @login_required(login_url='FGPH:login')
 def profile(request):
+    categories = Category.objects.all()
     user = request.user
     if request.method == 'POST':
         data = request.POST
@@ -237,7 +239,7 @@ def profile(request):
 
     #group = list(user.groups.values_list('name', flat = True))
 
-    context = {'user': user}
+    context = {'user': user, 'categories': categories}
     return render(request, 'FGPH/profile.html', context)
 
 
