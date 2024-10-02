@@ -59,6 +59,9 @@ class Recipe(models.Model):
             MinValueValidator(1)
         ]
     )
+	@property
+	def recipeTags(self):
+		return self.tags.values_list()
 
 	date_created = models.DateTimeField(auto_now_add=True, null=True)
 	date_modified = models.DateTimeField(auto_now=True, null=True)
