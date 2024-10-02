@@ -2,16 +2,16 @@
 {% load static %}
 {% block content %}
      <div class="row">
-		<div class="col-lg-6">
+		<!--<div class="col-lg-6">
 			<div class="box-element">
-				<!--javascript:history.back()-->
-				<a  class="btn btn-outline-dark" href="{% url 'FGPH:home' %}">&#x2190; Home</a>
+				javascript:history.back()
 				<hr>
 				<h3>{{ user.username }}</h3>
 			</div>
-		</div>
-
-		<div class="col-lg-6">
+		</div>-->
+		
+		<div class="center">
+			<a class="btn btn-outline-dark mb-2" href="{% url 'FGPH:home' %}">&#x2190; Home</a>
 			<div class="box-element" id="form-wrapper">
 				{% for message in messages %}
                     <p id="messages">{{ message }}</p>

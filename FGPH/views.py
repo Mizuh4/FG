@@ -129,7 +129,6 @@ def uploadRecipe(request, *args):
                 'author': request.user.registereduser,
                 'name': data['name'],
                 'category': category,
-                'thumbnail': thumbnail,
                 'region': region,
                 'description': data['description'],
                 'steps': steps,
@@ -160,10 +159,10 @@ def uploadRecipe(request, *args):
                     tag, created = Tag.objects.get_or_create(name__iexact=tag)
                     recipe.tags.add(tag)
         
-        '''if thumbnail:
+        if thumbnail:
             recipe.thumbnail = thumbnail
             recipe.save()
-            #print('Thumbnail updated')'''
+            #print('Thumbnail updated')
         
         if images:
             Image.objects.filter(recipe=recipe).delete()
@@ -217,12 +216,17 @@ def profile(request):
         password = data.get('password')
 
         if authenticate(request, username=username, password=password) is not None:
+            print(user.registereduser.name)
+            print(user.registereduser.title)
             user.username = data['username']
             user.email = data['email']
             user.registereduser.name = data['name']
             user.registereduser.title = data['title']
+            print(user.registereduser.name)
+            print(user.registereduser.title)
             try:
                 user.save()
+                user.registereduser.save()
                 messages.success(request, 'Profile has been updated.')
             except IntegrityError:
                 messages.info(request, 'Username already exists.')
