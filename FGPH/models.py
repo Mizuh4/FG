@@ -47,7 +47,7 @@ class Recipe(models.Model):
 	tags = models.ManyToManyField(Tag)
 	thumbnail = models.ImageField(default='placeholder.png')
 	region = models.ForeignKey(Region, null=True, blank=True, on_delete=models.SET_NULL, related_name='recipes')
-	description = models.CharField(max_length=200, null=True, blank=True)
+	description = models.CharField(max_length=500, null=True, blank=True)
 	steps = models.JSONField(null=True)
 	ingredients = models.JSONField(null=True)
 	preparation_time = models.CharField(max_length=64, null=True, blank=True)
@@ -59,6 +59,9 @@ class Recipe(models.Model):
             MinValueValidator(1)
         ]
     )
+	@property
+	def recipeTags(self):
+		return self.tags.values_list()
 
 	date_created = models.DateTimeField(auto_now_add=True, null=True)
 	date_modified = models.DateTimeField(auto_now=True, null=True)

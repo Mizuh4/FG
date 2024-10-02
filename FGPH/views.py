@@ -1,3 +1,4 @@
+from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 import json
@@ -14,26 +15,30 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.http import HttpResponseRedirect
+from django.db.models import Q
 from .forms import *
 
 # Create your views here.
-
 def index(request):
+    categories = Category.objects.all()
+    regions = Region.objects.all().values().order_by('order')
+
     category = request.GET.get('category')
     region = request.GET.get('region')
-    tag = request.GET.get('tag')
-
+    query = request.GET.get("q")
+    
     if category:
         recipes = Recipe.objects.filter(category__name__contains=category)
     elif region:
         recipes = Recipe.objects.filter(region__name__contains=region)
-    elif tag:
-        recipes = Recipe.objects.filter(tags__name__contains=tag)
+    elif query:
+        recipes = Recipe.objects.filter(
+            Q(name__icontains=query) | Q(tags__name__icontains=query) | Q(author__name__icontains=query) |
+            Q(ingredients__icontains=query)
+        ).distinct()
     else:
         recipes = Recipe.objects.all()
 
-    categories = Category.objects.all()
-    regions = Region.objects.all().values().order_by('order')
     #print(regions)
     context = {'recipes': recipes, 'regions': regions, 'categories': categories}
     return render(request, 'FGPH/home.html', context)
@@ -41,6 +46,7 @@ def index(request):
 
 @login_required(login_url='FGPH:login')
 def cookbook(request):
+    categories = Category.objects.all()
     if request.user.is_authenticated:
         cookbookAuthor = request.user.registereduser
         cookbook, created = Cookbook.objects.get_or_create(cookbookAuthor=cookbookAuthor)
@@ -48,7 +54,7 @@ def cookbook(request):
     else:
         cookbookRecipes = []
 
-    context = {'cookbookRecipes': cookbookRecipes}
+    context = {'cookbookRecipes': cookbookRecipes, 'categories': categories}
     return render(request, 'FGPH/cookbook.html', context)
 
 def recipe(request, recipeId):
@@ -98,7 +104,7 @@ def uploadRecipe(request, *args):
         print(type(tags))
         steps = data.getlist('step')
         ingredients = data.getlist('ingredient')
-        serving_size = data.get('serving_size')
+        #serving_size = data.get('serving_size')
 
         category = Category.objects.get(id=data['category'])
         region = Region.objects.get(id=data['region'])
@@ -121,7 +127,7 @@ def uploadRecipe(request, *args):
         recipe, created = Recipe.objects.update_or_create(
             id=recipeId,
             defaults={
-                "author": request.user.registereduser,
+                'author': request.user.registereduser,
                 'name': data['name'],
                 'category': category,
                 'region': region,
@@ -143,9 +149,9 @@ def uploadRecipe(request, *args):
             ingredients=ingredients
         )'''
 
-        if serving_size:
+        '''if serving_size:
             recipe.serving_size = serving_size
-            recipe.save()
+            recipe.save()'''
 
         if tags:
             recipe.tags.clear()
@@ -204,10 +210,36 @@ def deleteRecipe(request, recipeId):
 
 @login_required(login_url='FGPH:login')
 def profile(request):
+    categories = Category.objects.all()
     user = request.user
+    if request.method == 'POST':
+        data = request.POST
+        username = request.user.username
+        password = data.get('password')
+
+        if authenticate(request, username=username, password=password) is not None:
+            print(user.registereduser.name)
+            print(user.registereduser.title)
+            user.username = data['username']
+            user.email = data['email']
+            user.registereduser.name = data['name']
+            user.registereduser.title = data['title']
+            print(user.registereduser.name)
+            print(user.registereduser.title)
+            try:
+                user.save()
+                user.registereduser.save()
+                messages.success(request, 'Profile has been updated.')
+            except IntegrityError:
+                messages.info(request, 'Username already exists.')
+                
+        else:
+            messages.info(request, 'Password is incorrect.')
+            print('Password is incorrect.')
+
     #group = list(user.groups.values_list('name', flat = True))
 
-    context = {'user': user}
+    context = {'user': user, 'categories': categories}
     return render(request, 'FGPH/profile.html', context)
 
 

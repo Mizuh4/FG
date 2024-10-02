@@ -93,9 +93,9 @@
                     <div class="m-3">
                         <label class="form-label">Description</label>
                         {% if recipe.description %}
-                        <textarea  style="overflow:hidden;" name="description" class="form-control" type="text" placeholder="Enter description">{{ recipe.description }}</textarea>
+                        <textarea maxlength="500" style="overflow:hidden;" name="description" class="form-control" type="text" placeholder="Enter description">{{ recipe.description }}</textarea>
                         {% else %}
-                        <textarea  style="overflow:hidden" name="description" class="form-control" type="text" placeholder="Enter description"></textarea>
+                        <textarea maxlength="500" style="overflow:hidden" name="description" class="form-control" type="text" placeholder="Enter description"></textarea>
                         {% endif %}
                     </div>
 
@@ -114,9 +114,9 @@
                                 {% endfor %}
                             {% else %}
                             <div class="input-group mb-1">
-                                <input name="step" class="form-control mb-1" type="text" placeholder="Add step">
+                                <textarea name="step" style="overflow:hidden" class="form-control mb-1" type="text" placeholder="Add step"></textarea>
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary delete-button" type="button">x</button>
+                                    <button style="height: 100%;" class="btn btn-outline-secondary delete-button" type="button">x</button>
                                 </div>
                             </div>
                             {% endif %}
