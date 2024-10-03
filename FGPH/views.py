@@ -23,6 +23,12 @@ def index(request):
     categories = Category.objects.all()
     regions = Region.objects.all().values().order_by('order')
 
+    cookbookAuthor = request.user.registereduser
+    cookbook = Cookbook.objects.get(cookbookAuthor=cookbookAuthor)
+    pks = cookbook.recipes.values_list('recipe')
+    cookbookrecipes = Recipe.objects.filter(id__in=pks)
+    print(cookbookrecipes)
+
     category = request.GET.get('category')
     region = request.GET.get('region')
     query = request.GET.get("q")
@@ -40,7 +46,8 @@ def index(request):
         recipes = Recipe.objects.all()
 
     #print(regions)
-    context = {'recipes': recipes, 'regions': regions, 'categories': categories}
+    context = {'recipes': recipes, 'regions': regions, 'categories': categories,
+               'cookbookrecipes': cookbookrecipes}
     return render(request, 'FGPH/home.html', context)
 
 

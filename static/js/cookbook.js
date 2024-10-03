@@ -11,6 +11,15 @@ function toCookbook() {
                 window.location.href = '/login/';
             } else {
                 console.log('Logged in.')
+                /*console.log('Test')
+                if (action == 'add' && button.classList.contains('add-recipe')) {
+                    button.innerHTML = 'Remove from Cookbook';
+                    button.dataset.recipe = 'remove'
+                }
+                else if (action == 'remove' && button.classList.contains('add-recipe')) {
+                    button.innerHTML = 'Add to Cookbook';
+                    button.dataset.recipe = 'add'
+                }*/
                 updateCookbook(recipeId, action)
             }
         }
