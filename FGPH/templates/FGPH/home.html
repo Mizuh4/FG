@@ -10,7 +10,14 @@
 			<img class="thumbnail" src="{{ recipe.thumbnail.url }}">
 			<div class="box-element product">
 				<h4 class="card-title"><strong>{{ recipe.name }}</strong></h4>
-				<h6 style="line-height: 30px; margin-left: 	0px;">by: {{ recipe.author }} ({{ recipe.author.title }})</h6>
+
+				<div style="display: inline-flex;">
+					<h6 style="line-height: 30px; margin-left: 	0px;">by: {{ recipe.author }}</h6>
+					{% if recipe.author.title %}
+					<h6 style="line-height: 30px; margin-left: 	0px;">&nbsp;({{ recipe.author.title }})</h6>
+					{% endif %}
+					
+				</div>
 				<p style="word-wrap: break-word;" class="card-text">{{ recipe.description }}</p>
 				
 				<div style="display: inline-flex;">
