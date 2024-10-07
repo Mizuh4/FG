@@ -8,30 +8,39 @@ function addField() {
     document.querySelectorAll('.multifield-container').forEach(container => {
         ['keypress'].forEach(evt => 
             container.addEventListener(evt, function(event) {
+                
                 if (event.key === "Enter" && event.target.value.length > 0 /*&& container.childElementCount < 10*/) {
-                    event.preventDefault();
+                    if (container.classList.contains('tag-fields') && container.childElementCount > 9 ) {
+                        event.preventDefault();
+                    } else if (container.classList.contains('step-fields') && container.childElementCount > 19 ) {
+                        event.preventDefault();
+                    } else if (container.classList.contains('ingredient-fields') && container.childElementCount > 29 ) {
+                        event.preventDefault();
+                    } else {
+                        event.preventDefault();
+        
+                        // Create a string representing the element
+                        const newField = container.querySelector('.input-group').outerHTML
     
-                    // Create a string representing the element
-                    const newField = container.querySelector('.input-group').outerHTML
-
-                    // Create a new DOMParser
-                    const parser = new DOMParser();
-    
-                    // Parse the element string
-                    const doc = parser.parseFromString(newField, 'text/html');
-    
-                    // Access the parsed element
-                    const element = doc.body.firstChild;
-    
-                    // Manipulate or append the element to the document
-                    container.appendChild(element)
-                    console.log('Successfully Added a new field.')
-                    container.lastElementChild.children[0].innerHTML = ""
-                    container.lastElementChild.children[0].setAttribute("value", "")
-                    console.log("INNERHTML CLEARED")
-                    container.lastElementChild.children[0].focus()
-                    deleteField(container);
-                    textareaExpand();
+                        // Create a new DOMParser
+                        const parser = new DOMParser();
+        
+                        // Parse the element string
+                        const doc = parser.parseFromString(newField, 'text/html');
+        
+                        // Access the parsed element
+                        const element = doc.body.firstChild;
+        
+                        // Manipulate or append the element to the document
+                        container.appendChild(element)
+                        //console.log('Successfully Added a new field.')
+                        container.lastElementChild.children[0].innerHTML = ""
+                        container.lastElementChild.children[0].setAttribute("value", "")
+                        //console.log("INNERHTML CLEARED")
+                        container.lastElementChild.children[0].focus()
+                        deleteField(container);
+                        textareaExpand();
+                    }
                 }
                 
                 else if (event.key === "Enter" && event.target.value.length === 0) {

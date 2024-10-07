@@ -47,7 +47,7 @@ class Recipe(models.Model):
 	tags = models.ManyToManyField(Tag)
 	thumbnail = models.ImageField(default='placeholder.png')
 	region = models.ForeignKey(Region, null=True, blank=True, on_delete=models.SET_NULL, related_name='recipes')
-	description = models.CharField(max_length=500, null=True, blank=True)
+	description = models.CharField(max_length=700, null=True, blank=True)
 	steps = models.JSONField(null=True)
 	ingredients = models.JSONField(null=True)
 	preparation_time = models.CharField(max_length=64, null=True, blank=True)

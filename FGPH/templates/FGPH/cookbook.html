@@ -49,7 +49,7 @@
 				<a href="{% url 'FGPH:recipe' cookbookRecipe.recipe.id %}" class="btn btn-outline-success">View</a>
                 {% if request.user.registereduser == cookbookRecipe.recipe.author %}
                 <a href="{% url 'FGPH:editRecipe' cookbookRecipe.recipe.id %}" class="btn btn-outline-primary">Edit</a>
-                <a href="{% url 'FGPH:deleteRecipe' cookbookRecipe.recipe.id %}" class="btn btn-outline-danger">Delete</a>
+                <a href="{% url 'FGPH:deleteRecipe' cookbookRecipe.recipe.id %}" class="btn btn-outline-danger delete-recipe-btn">Delete</a>
                 {% endif %}
 
 				<!--<h4 style="float: right"><i class="me-2 bi bi-heart"></i></h4>-->

@@ -46,7 +46,7 @@
 
                     <div class="m-3">
                         <label class="form-label">Tags</label>
-                        <div class="multifield-container">
+                        <div class="multifield-container tag-fields">
                             {% if tags %}
                                 {% for id, name in tags %}
                                 <div class="input-group mb-1">
@@ -102,7 +102,7 @@
                     <div class="m-3">
                         <label class="form-label">Steps</label>
                         
-                        <div class="multifield-container">
+                        <div class="multifield-container step-fields">
                             {% if recipe.steps %}
                                 {% for step in recipe.steps %}
                                 <div class="input-group mb-1">
@@ -125,7 +125,7 @@
 
                     <div class="m-3">
                         <label class="form-label">Ingredients</label>
-                        <div class="multifield-container">
+                        <div class="multifield-container ingredient-fields">
                             {% if recipe.ingredients %}
                                 {% for ingredient in recipe.ingredients %}
                                 <div class="input-group mb-1">

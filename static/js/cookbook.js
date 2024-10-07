@@ -15,12 +15,17 @@ function toCookbook() {
                 if (action == 'add' && button.classList.contains('add-recipe')) {
                     button.innerHTML = 'Remove from Cookbook';
                     button.dataset.recipe = 'remove'
-                }
-                else if (action == 'remove' && button.classList.contains('add-recipe')) {
-                    button.innerHTML = 'Add to Cookbook';
-                    button.dataset.recipe = 'add'
                 }*/
-                updateCookbook(recipeId, action)
+               
+                if (action == 'add') {
+                    updateCookbook(recipeId, action)
+                }
+                else if (action == 'remove') {
+                    var confirmRemove = confirm("Remove Recipe from Cookbook?")
+                }
+                if (confirmRemove) {
+                    updateCookbook(recipeId, action)
+                }
             }
         }
     })

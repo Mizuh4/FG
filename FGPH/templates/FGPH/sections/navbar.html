@@ -49,23 +49,24 @@
           <a class="nav-link" aria-current="page" href="{% url 'FGPH:uploadRecipe' %}">Upload</a>
         </li>
         {% endif %}
+        <li style="margin-right: 10px; margin-bottom: 5px;">
+          <form action="{% url 'FGPH:home' %}" method="get">
+            <input class="form-control me-2" name="q" type="text" placeholder="Search Recipe..." aria-label="Search">
+          </form>
+        </li>
+        <li>
+          <div style="text-align: center;">
+            {% if request.user.is_authenticated %}
+            <a class="navbar-brand">Hello, {{ request.user.username }}</a>
+            {% else %}
+            <a href="{% url 'FGPH:login' %}" class="btn btn-outline-warning">Login</a>
+            {% endif %}
+          </div>
+        </li>
       </ul>
-      
       <!--<form class="d-flex" role="search">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
       </form>-->
-
-      <form action="{% url 'FGPH:home' %}" method="get">
-        <input class="form-control me-2" name="q" type="text" placeholder="Search Recipe.." aria-label="Search">
-      </form>
-
-      <div style="margin-left: 10px;">
-        {% if request.user.is_authenticated %}
-        <a class="navbar-brand">Hello, {{ request.user.username }}</a>
-        {% else %}
-        <a href="{% url 'FGPH:login' %}" class="btn btn-outline-warning">Login</a>
-        {% endif %}
-      </div>
     </div>
   </div>
 </nav>
