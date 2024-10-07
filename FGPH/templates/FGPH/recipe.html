@@ -10,7 +10,6 @@
     {% if request.user == recipe.author.user %}
     <a style="height: fit-content; margin-top: 20px;" class="btn btn-outline-secondary ms-2 me-auto" href="{% url 'FGPH:editRecipe' recipe.id %}">Edit</a>
     {% endif %}
-
   </div>
   <!--<div style="height: fit-content; margin-top: 30px;" class="btn btn-outline-dark ">Add Photo</div>-->
   <div style="height: fit-content; margin-top: 30px;" class="btn btn-outline-dark" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">Ingredients</div>
@@ -18,8 +17,15 @@
 
 <div style="margin-bottom: 30px;">
   <p class="ms-2"> <strong>Created:</strong> {{ recipe.date_created }} <strong>Edited:</strong> {{ recipe.date_modified }}</p>
+  {% if recipe.author.title %}
   <p style="line-height: 10px;" class="ms-2"><strong>Posted by:</strong> {{ recipe.author }} ({{ recipe.author.title }})</p>
+  {% else %}
+  <p style="line-height: 10px;" class="ms-2"><strong>Posted by:</strong> {{ recipe.author }}</p>
+  {% endif %}
+
 </div>
+
+<p style="text-align: center;">{{ recipe.category }} | {{ recipe.region }}</p>
 
 <div>
   <p class="ms-2">{{ recipe.description }}</p>

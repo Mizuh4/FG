@@ -8,9 +8,9 @@ function reloadButton() {
             field.onkeyup = () => {
                 button.disabled = false;
             }
-            field.onkeydown = () => {
+            /*field.onkeydown = () => {
                 button.disabled = false;
-            }
+            }*/
         })
     })
 }

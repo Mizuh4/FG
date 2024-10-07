@@ -23,31 +23,45 @@ def index(request):
     categories = Category.objects.all()
     regions = Region.objects.all().values().order_by('order')
 
-    cookbookAuthor = request.user.registereduser
-    cookbook = Cookbook.objects.get(cookbookAuthor=cookbookAuthor)
-    pks = cookbook.recipes.values_list('recipe')
-    cookbookrecipes = Recipe.objects.filter(id__in=pks)
-    print(cookbookrecipes)
+    if request.user.is_authenticated:
+        cookbookAuthor = request.user.registereduser
+        cookbook = Cookbook.objects.get(cookbookAuthor=cookbookAuthor)
+        pks = cookbook.recipes.values_list('recipe')
+        cookbookrecipes = Recipe.objects.filter(id__in=pks)
+        print(cookbookrecipes)
+    else:
+        cookbookrecipes = []
 
     category = request.GET.get('category')
     region = request.GET.get('region')
+    tag = request.GET.get("tag")
     query = request.GET.get("q")
+    search = ""
     
     if category:
         recipes = Recipe.objects.filter(category__name__contains=category)
+        search = category
+
     elif region:
         recipes = Recipe.objects.filter(region__name__contains=region)
+        search = region
+
+    elif tag:
+        recipes = Recipe.objects.filter(tags__name__contains=tag)
+        search = tag
+
     elif query:
         recipes = Recipe.objects.filter(
             Q(name__icontains=query) | Q(tags__name__icontains=query) | Q(author__name__icontains=query) |
-            Q(ingredients__icontains=query)
+            Q(ingredients__icontains=query) | Q(category__name__icontains=query) | Q(region__name__icontains=query) 
+            | Q(author__user__username__icontains=query)
         ).distinct()
     else:
         recipes = Recipe.objects.all()
 
     #print(regions)
     context = {'recipes': recipes, 'regions': regions, 'categories': categories,
-               'cookbookrecipes': cookbookrecipes}
+               'cookbookrecipes': cookbookrecipes, 'search': search, 'query': query}
     return render(request, 'FGPH/home.html', context)
 
 
