@@ -32,7 +32,7 @@
                     <div class="m-3">
                         <label class="form-label">Category</label>
                         <!--<input name="category" class="form-control" type="text" placeholder="Enter category">-->
-                        <select  name="category" class="form-control">
+                        <select required name="category" class="form-control">
                             <option value="">Select Category...</option>
                             {% for category in categories %}
                                 {% if category == recipe.category %}
@@ -78,7 +78,7 @@
                     <div class="m-3">
                         <label class="form-label">Region</label>
                         <!--<input name="category" class="form-control" type="text" placeholder="Enter category">-->
-                        <select  name="region" class="form-control">
+                        <select required name="region" class="form-control">
                             <option value="">Select Region...</option>
                             {% for region in regions %}
                                 {% if region == recipe.region %}
